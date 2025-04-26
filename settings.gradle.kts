@@ -27,3 +27,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Livefront"
+
+include(":data")

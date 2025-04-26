@@ -11,8 +11,26 @@ ksp = "2.1.10-1.0.30"
 jetbrainsKotlinJvm = "2.1.0"
 spotless = "7.0.3"
 cacheFix = "3.0.1"
+retrofit = "2.11.0"
+okhttp = "4.12.0"
+kotlinxCoroutines = "1.10.2"
+logging-interceptor = "4.12.0"
+kotlinxSerializer = "1.8.0"
+timber = "5.0.1"
+desugaring = "2.1.5"
 
 [libraries]
+data-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+data-retrofit-converter-kotlinx-serialization = { group =  "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+data-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializer" }
+data-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
+logging-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+tooling-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
+tooling-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+di-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+di-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+test-di-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 # Build logic dependencies
 build-logic-android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 build-logic-kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
