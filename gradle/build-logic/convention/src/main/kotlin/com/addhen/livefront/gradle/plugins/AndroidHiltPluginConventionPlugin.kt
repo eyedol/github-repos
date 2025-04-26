@@ -15,26 +15,26 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidHiltPluginConventionPlugin : Plugin<Project> {
-	override fun apply(target: Project) {
-		with(target) {
-			with(pluginManager) {
-				apply("com.google.devtools.ksp")
-				apply("dagger.hilt.android.plugin")
-			}
+    override fun apply(target: Project) {
+        with(target) {
+            with(pluginManager) {
+                apply("com.google.devtools.ksp")
+                apply("dagger.hilt.android.plugin")
+            }
 
-			android {
-				packagingOptions {
-					resources {
-						excludes += "META-INF/gradle/incremental.annotation.processors"
-					}
-				}
-			}
-			dependencies {
-				implementation(libs.library("di-hilt-android"))
-				ksp(libs.library("di-hilt-compiler"))
-				testImplementation(libs.library("test-di-hilt-android-testing"))
-				kspTest(libs.library("test-di-hilt-android-testing"))
-			}
-		}
-	}
+            android {
+                packagingOptions {
+                    resources {
+                        excludes += "META-INF/gradle/incremental.annotation.processors"
+                    }
+                }
+            }
+            dependencies {
+                implementation(libs.library("di-hilt-android"))
+                ksp(libs.library("di-hilt-compiler"))
+                testImplementation(libs.library("test-di-hilt-android-testing"))
+                kspTest(libs.library("test-di-hilt-android-testing"))
+            }
+        }
+    }
 }

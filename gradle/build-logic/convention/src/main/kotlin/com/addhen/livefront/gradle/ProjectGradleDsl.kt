@@ -18,73 +18,73 @@ import java.util.Optional
 val Project.libs get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 fun Project.composeCompiler(block: ComposeCompilerGradlePluginExtension.() -> Unit) {
-	extensions.configure<ComposeCompilerGradlePluginExtension>(block)
+    extensions.configure<ComposeCompilerGradlePluginExtension>(block)
 }
 
 internal fun VersionCatalog.library(name: String): MinimalExternalModuleDependency {
-	return findLibrary(name).get().get()
+    return findLibrary(name).get().get()
 }
 
 internal fun VersionCatalog.version(name: String): String {
-	return findVersion(name).get().requiredVersion
+    return findVersion(name).get().requiredVersion
 }
 
 fun DependencyHandlerScope.implementation(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("implementation", artifact)
+    add("implementation", artifact)
 }
 
 fun DependencyHandlerScope.lintChecks(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("lintChecks", artifact)
+    add("lintChecks", artifact)
 }
 
 fun DependencyHandlerScope.implementationBundle(
-	artifact: Optional<Provider<ExternalModuleDependencyBundle>>,
+    artifact: Optional<Provider<ExternalModuleDependencyBundle>>,
 ) {
-	add("implementation", artifact.get())
+    add("implementation", artifact.get())
 }
 
 fun DependencyHandlerScope.debugImplementation(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("debugImplementation", artifact)
+    add("debugImplementation", artifact)
 }
 
 fun DependencyHandlerScope.androidTestImplementation(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("androidTestImplementation", artifact)
+    add("androidTestImplementation", artifact)
 }
 
 fun DependencyHandlerScope.testImplementation(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("testImplementation", artifact)
+    add("testImplementation", artifact)
 }
 
 fun DependencyHandlerScope.implementationPlatform(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("implementation", platform(artifact))
+    add("implementation", platform(artifact))
 }
 
 fun DependencyHandlerScope.ksp(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("ksp", artifact)
+    add("ksp", artifact)
 }
 
 fun DependencyHandlerScope.kspTest(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("kspTest", artifact)
+    add("kspTest", artifact)
 }
 
 private fun DependencyHandlerScope.api(
-	artifact: MinimalExternalModuleDependency,
+    artifact: MinimalExternalModuleDependency,
 ) {
-	add("api", artifact)
+    add("api", artifact)
 }

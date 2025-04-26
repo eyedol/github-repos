@@ -9,13 +9,13 @@ import org.gradle.api.Project
 
 @Suppress("unused")
 class SpotlessConventionPlugin : Plugin<Project> {
-	override fun apply(target: Project) = with(target) {
-		configureSpotless()
+    override fun apply(target: Project) = with(target) {
+        configureSpotless()
 
-		afterEvaluate {
-			if (tasks.findByName("check")?.enabled == true) {
-				tasks.getByName("check").dependsOn("spotlessCheck")
-			}
-		}
-	}
+        afterEvaluate {
+            if (tasks.findByName("check")?.enabled == true) {
+                tasks.getByName("check").dependsOn("spotlessCheck")
+            }
+        }
+    }
 }
