@@ -1,0 +1,3 @@
+// Copyright $YEAR, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
