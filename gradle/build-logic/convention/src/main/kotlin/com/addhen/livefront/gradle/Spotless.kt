@@ -29,7 +29,7 @@ fun Project.configureSpotless() {
 					),
 				)
 			trimTrailingWhitespace()
-			leadingSpacesToTabs()
+			leadingTabsToSpaces()
 			endWithNewline()
 			licenseHeaderFile(project.rootProject.file("spotless/copyright.txt"))
 		}
@@ -38,7 +38,7 @@ fun Project.configureSpotless() {
 			target("*.kts")
 			ktlint(ktlintVersion)
 			trimTrailingWhitespace()
-			leadingSpacesToTabs()
+			leadingTabsToSpaces()
 			endWithNewline()
 			licenseHeaderFile(rootProject.file("spotless/copyright.txt"), "(^(?![\\/ ]\\**).*$)")
 		}
