@@ -109,7 +109,8 @@ class GithubApiServiceTest {
                 runTest { sut.getContributors(owner = "addhen", repo = "livefront") }
             }
 
-            assertThrows(HttpException::class.java, runTestBlock, " HTTP 404 Client Error" )
+            val exception = assertThrows(HttpException::class.java, runTestBlock)
+            assertEquals("HTTP 404 Client Error", exception.message)
         }
 
         @Test
