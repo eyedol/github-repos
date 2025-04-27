@@ -1,7 +1,7 @@
 package com.addhen.livefront.data.api
 
-import com.addhen.livefront.data.api.dto.RepoDto.ContributorDto
-import com.addhen.livefront.data.api.dto.RepoResponseDto
+import com.addhen.livefront.data.api.dto.GithubRepoDto.ContributorDto
+import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,5 +20,5 @@ interface GithubApiService {
         @Query("q") query: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
-    ): RepoResponseDto
+    ): GithubRepoResponseDto
 }

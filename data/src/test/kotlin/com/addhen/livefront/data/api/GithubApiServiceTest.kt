@@ -1,7 +1,7 @@
 package com.addhen.livefront.data.api
 
-import com.addhen.livefront.data.api.dto.RepoDto
-import com.addhen.livefront.data.api.dto.RepoResponseDto
+import com.addhen.livefront.data.api.dto.GithubRepoDto
+import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
 import com.addhen.livefront.data.api.dto.fakes
 import com.addhen.livefront.data.di.DataModule
 import com.addhen.livefront.testing.CoroutineTestRule
@@ -62,7 +62,7 @@ class GithubApiServiceTest {
         @Test
         @DisplayName("When getContributors is called with valid parameters, it returns the contributors list")
         fun `getContributors successful retrieval`() = runTest {
-            val fakeContributorResponse = (1..10).map { RepoDto.ContributorDto.fakes(it.toLong()) }
+            val fakeContributorResponse = (1..10).map { GithubRepoDto.ContributorDto.fakes(it.toLong()) }
             val jsonResponse = json.encodeToString(fakeContributorResponse)
             val mockResponse = MockResponse().setBody(jsonResponse)
 
@@ -138,7 +138,7 @@ class GithubApiServiceTest {
         @Test
         @DisplayName("When getRepos is called with valid parameters, it returns repositories")
         fun `getRepos successful retrieval`() = runTest {
-            val fakeRepoResponse = RepoResponseDto.fakes()
+            val fakeRepoResponse = GithubRepoResponseDto.fakes()
             val jsonResponse = json.encodeToString(fakeRepoResponse)
             println(jsonResponse)
             val mockResponse = MockResponse()

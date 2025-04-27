@@ -3,7 +3,7 @@ package com.addhen.livefront.data.api.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RepoDto(
+data class GithubRepoDto(
     val id: Long,
     val description: String? = null,
     val full_name: String,
@@ -31,18 +31,18 @@ data class RepoDto(
     companion object
 }
 
-fun RepoDto.Companion.fakes(id : Long = 1): RepoDto {
-    return RepoDto(
+fun GithubRepoDto.Companion.fakes(id : Long = 1): GithubRepoDto {
+    return GithubRepoDto(
         id = id,
         description = "Fake repo description $id",
         full_name = "Fake repo full name $id",
         stargazers_count = 1,
-        owner = RepoDto.OwnerDto(
+        owner = GithubRepoDto.OwnerDto(
             id = id,
             login = "Fake owner login $id",
             avatar_url = "Fake owner avatar url",
         ),
-        contributor = RepoDto.ContributorDto(
+        contributor = GithubRepoDto.ContributorDto(
             id = id,
             login = "Fake contributor login",
             contributions = 2,
@@ -51,8 +51,8 @@ fun RepoDto.Companion.fakes(id : Long = 1): RepoDto {
     )
 }
 
-fun RepoDto.ContributorDto.Companion.fakes(id: Long = 1): RepoDto.ContributorDto {
-    return RepoDto.ContributorDto(
+fun GithubRepoDto.ContributorDto.Companion.fakes(id: Long = 1): GithubRepoDto.ContributorDto {
+    return GithubRepoDto.ContributorDto(
         id = id,
         login = "Fake contributor login",
         contributions = 2,
