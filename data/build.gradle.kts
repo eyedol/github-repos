@@ -12,6 +12,7 @@ plugins {
 android.namespace = "com.addhen.livefront.data"
 
 dependencies {
+    implementation(libs.presentation.paging.runtime)
     implementation(libs.data.kotlin.serialization)
     implementation(libs.data.okhttp)
     implementation(libs.data.retrofit)
