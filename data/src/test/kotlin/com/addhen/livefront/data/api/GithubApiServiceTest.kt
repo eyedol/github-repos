@@ -1,6 +1,6 @@
 package com.addhen.livefront.data.api
 
-import com.addhen.livefront.data.api.dto.RepoResponseDto
+import com.addhen.livefront.data.api.dto.RepoDto
 import com.addhen.livefront.data.api.dto.fakes
 import com.addhen.livefront.data.di.DataModule
 import com.addhen.livefront.testing.CoroutineTestRule
@@ -12,13 +12,19 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import retrofit2.Retrofit
+import retrofit2.HttpException
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import java.net.HttpURLConnection
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@DisplayName("Github API Service Tests")
 class GithubApiServiceTest {
 
     @JvmField
@@ -32,6 +38,7 @@ class GithubApiServiceTest {
     @BeforeEach
     fun setup() {
         mockWebServer = MockWebServer()
+        mockWebServer.start()
         val contentType = "application/json".toMediaType()
         json = DataModule.provideJson()
 
@@ -47,19 +54,78 @@ class GithubApiServiceTest {
         mockWebServer.shutdown()
     }
 
-    @Test
-    fun `getContributors successful retrieval`() = runTest {
-        val fakeResponse = RepoResponseDto.fakes()
-        val jsonResponse = json.encodeToString(fakeResponse)
-        mockWebServer.enqueue(MockResponse().setBody(jsonResponse))
+    @Nested
+    @DisplayName("getContributors() Tests")
+    inner class GetContributorsTests {
 
-        val result = sut.getContributors(
-            owner = "addhen",
-            repo = "livefront",
-            perPage = 1
-        )
+        @Test
+        @DisplayName("When getContributors is called with valid parameters, it returns the contributors list")
+        fun `getContributors successful retrieval`() = runTest {
+            val fakeContributorResponse = (1..10).map { RepoDto.ContributorDto.fakes(it.toLong()) }
+            val jsonResponse = json.encodeToString(fakeContributorResponse)
+            val mockResponse = MockResponse().setBody(jsonResponse)
 
-        val request = mockWebServer.takeRequest()
-        assertEquals("/repos/addhen/livefront/contributors", request.path)
+            mockWebServer.enqueue(mockResponse)
+
+            val result = sut.getContributors(
+                owner = "addhen",
+                repo = "livefront",
+            )
+
+            val request = mockWebServer.takeRequest()
+            assertEquals("/repos/addhen/livefront/contributors?per_page=1", request.path)
+            assertEquals(fakeContributorResponse, result)
+        }
+
+        @Test
+        @DisplayName("When getContributors is called with custom perPage value, it includes that parameter")
+        fun `getContributors with custom per page`() = runTest {
+            val mockResponse = MockResponse()
+                .setBody("[]")
+
+            mockWebServer.enqueue(mockResponse)
+
+            sut.getContributors(
+                owner = "addhen",
+                repo = "livefront",
+                perPage = 10
+            )
+
+            val request = mockWebServer.takeRequest()
+            assertEquals("/repos/addhen/livefront/contributors?per_page=10", request.path)
+        }
+
+        @Test
+        @DisplayName("When getContributors receives an error response, it throws an exception")
+        fun `getContributors throws error`() {
+            val mockResponse = MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_NOT_FOUND)
+                .setBody("""{"message": "Not Found"}""")
+
+            mockWebServer.enqueue(mockResponse)
+
+            val runTestBlock: () -> Unit = {
+                runTest { sut.getContributors(owner = "addhen", repo = "livefront") }
+            }
+
+            assertThrows(HttpException::class.java, runTestBlock, " HTTP 404 Client Error" )
+        }
+
+        @Test
+        @DisplayName("When getContributors receives a malformed response, it throws an exception")
+        fun `getContributors throws due to malformed response`() {
+            val malformedErrorMessage = "Unexpected JSON token at offset 0: Expected start of the array '[', but had '{' instead at path: ${'$'}"
+            val mockResponse = MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody("""{"invalid": "format"}""")
+
+            mockWebServer.enqueue(mockResponse)
+
+            val runTestBlock: () -> Unit = {
+                runTest { sut.getContributors(owner = "addhen", repo = "livefront") }
+            }
+
+            assertThrows(Exception::class.java, runTestBlock, malformedErrorMessage )
+        }
     }
 }

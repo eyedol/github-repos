@@ -24,7 +24,9 @@ data class RepoDto(
         val login: String,
         val contributions: Int,
         val avatar_url: String?,
-    )
+    ) {
+        companion object
+    }
 
     companion object
 }
@@ -46,5 +48,14 @@ fun RepoDto.Companion.fakes(id : Long = 1): RepoDto {
             contributions = 2,
             avatar_url = "Fake contributor avatar url",
         )
+    )
+}
+
+fun RepoDto.ContributorDto.Companion.fakes(id: Long = 1): RepoDto.ContributorDto {
+    return RepoDto.ContributorDto(
+        id = id,
+        login = "Fake contributor login",
+        contributions = 2,
+        avatar_url = "Fake contributor avatar url"
     )
 }
