@@ -59,10 +59,22 @@ fun DependencyHandlerScope.androidTestImplementation(
     add("androidTestImplementation", artifact)
 }
 
+fun DependencyHandlerScope.androidTestRuntimeOnly(
+    artifact: MinimalExternalModuleDependency,
+) {
+    add("androidTestRuntimeOnly", artifact)
+}
+
 fun DependencyHandlerScope.testImplementation(
     artifact: MinimalExternalModuleDependency,
 ) {
     add("testImplementation", artifact)
+}
+
+fun DependencyHandlerScope.testRuntimeOnly(
+    artifact: MinimalExternalModuleDependency,
+) {
+    add("testRuntimeOnly", artifact)
 }
 
 fun DependencyHandlerScope.implementationPlatform(

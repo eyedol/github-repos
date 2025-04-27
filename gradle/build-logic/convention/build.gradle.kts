@@ -74,5 +74,10 @@ gradlePlugin {
       id = "com.addhen.livefront.serialization"
       implementationClass = "com.addhen.livefront.gradle.plugins.KotlinSerializationConventionPlugin"
     }
+
+    register("junit5") {
+      id = "com.addhen.livefront.junit5"
+      implementationClass = "com.addhen.livefront.gradle.plugins.Junit5ConventionPlugin"
+    }
   }
 }

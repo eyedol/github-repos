@@ -1,12 +1,12 @@
 // Copyright 2025, Livefront sample app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-
 plugins {
     id("com.addhen.livefront.android.library")
     id("com.addhen.livefront.kotlin.android")
     id("com.addhen.livefront.hilt.android")
     id("com.addhen.livefront.serialization")
+    id("com.addhen.livefront.junit5")
 }
 
 android.namespace = "com.addhen.livefront.data"
@@ -23,7 +23,6 @@ dependencies {
 
     testImplementation(projects.testing)
     testImplementation(libs.test.okhttp.mockwebserver)
-    testRuntimeOnly(libs.test.jupiter.engine)
 
     ksp(libs.di.hilt.compiler)
 }
