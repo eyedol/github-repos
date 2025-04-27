@@ -30,6 +30,11 @@ navigationCompose = "2.8.9"
 hiltNavigationCompose = "1.2.0"
 composeLintCheck = "1.4.2"
 multidex = "2.0.1"
+jupiterApi = "5.10.1"
+jupiterEngine = "5.10.1"
+turbine = "1.2.0"
+androidJunit5 = "1.2.1"
+mockwebserver = "4.12.0"
 
 [libraries]
 presentation-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +69,13 @@ tooling-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 di-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 di-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 test-di-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+test-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+test-okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
+test-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+test-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+test-android-junit5 = { group = "de.mannodermaus.junit5", name = "android-test-core", version.ref = "androidJunit5" }
+test-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "jupiterApi" }
+test-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "jupiterEngine" }
 multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
 # Build logic dependencies
 build-logic-android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }

@@ -30,3 +30,4 @@ rootProject.name = "Livefront"
 
 include(":app")
 include(":data")
+include(":testing")
