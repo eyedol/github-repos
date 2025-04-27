@@ -1,6 +1,7 @@
 package com.addhen.livefront.data.api
 
 import com.addhen.livefront.data.api.dto.RepoDto
+import com.addhen.livefront.data.api.dto.RepoResponseDto
 import com.addhen.livefront.data.api.dto.fakes
 import com.addhen.livefront.data.di.DataModule
 import com.addhen.livefront.testing.CoroutineTestRule
@@ -126,6 +127,77 @@ class GithubApiServiceTest {
             }
 
             assertThrows(Exception::class.java, runTestBlock, malformedErrorMessage )
+        }
+    }
+
+    @Nested
+    @DisplayName("getRepos() Tests")
+    inner class GetReposTests {
+
+        @Test
+        @DisplayName("When getRepos is called with valid parameters, it returns repositories")
+        fun `getRepos successful retrieval`() = runTest {
+            val fakeRepoResponse = RepoResponseDto.fakes()
+            val jsonResponse = json.encodeToString(fakeRepoResponse)
+            println(jsonResponse)
+            val mockResponse = MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody(jsonResponse)
+
+            mockWebServer.enqueue(mockResponse)
+
+            val result =sut.getRepos("android", 1, 2)
+
+            val request = mockWebServer.takeRequest()
+            assertEquals("/search/repositories?sort=stars&order=desc&q=android&page=1&per_page=2", request.path)
+            assertEquals(10, result.items.size)
+            assertEquals(fakeRepoResponse, result)
+        }
+
+        @Test
+        @DisplayName("When getRepos is called with different parameters, it correctly forms the URL")
+        fun `getRepos with different parameters()`() = runTest {
+            val mockResponse = MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody("""{"items": []}""")
+
+            mockWebServer.enqueue(mockResponse)
+
+            sut.getRepos("kotlin language:kotlin", 3, 10)
+
+            val request = mockWebServer.takeRequest()
+            assertEquals("/search/repositories?sort=stars&order=desc&q=kotlin%20language%3Akotlin&page=3&per_page=10", request.path)
+        }
+
+        @Test
+        @DisplayName("When getRepos receives an empty response, it returns empty list")
+        fun `getRepos receives an empty response`() = runTest {
+            val mockResponse = MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody("""{"items": []}""")
+
+            mockWebServer.enqueue(mockResponse)
+
+            val result = sut.getRepos("non-existent-repo", 1, 10)
+
+            assertEquals(0, result.items.size)
+        }
+
+        @Test
+        @DisplayName("When getRepos receives an error response, it throws an exception")
+        fun `getRepos throws error`() {
+            val mockResponse = MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_FORBIDDEN)
+                .setBody("""{"message": "API rate limit exceeded"}""")
+
+            mockWebServer.enqueue(mockResponse)
+
+            val runTestBlock: () -> Unit = {
+                runTest { sut.getRepos("android", 1, 10) }
+            }
+
+            val exception = assertThrows(HttpException::class.java, runTestBlock)
+            assertEquals("HTTP 403 Client Error", exception.message)
         }
     }
 }
