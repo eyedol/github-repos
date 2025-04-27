@@ -25,4 +25,26 @@ data class RepoDto(
         val contributions: Int,
         val avatar_url: String?,
     )
+
+    companion object
+}
+
+fun RepoDto.Companion.fakes(id : Long = 1): RepoDto {
+    return RepoDto(
+        id = id,
+        description = "Fake repo description $id",
+        full_name = "Fake repo full name $id",
+        stargazers_count = 1,
+        owner = RepoDto.OwnerDto(
+            id = id,
+            login = "Fake owner login $id",
+            avatar_url = "Fake owner avatar url",
+        ),
+        contributor = RepoDto.ContributorDto(
+            id = id,
+            login = "Fake contributor login",
+            contributions = 2,
+            avatar_url = "Fake contributor avatar url",
+        )
+    )
 }

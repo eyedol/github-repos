@@ -20,5 +20,10 @@ dependencies {
     implementation(libs.tooling.coroutines.android)
     implementation(libs.logging.interceptor)
     implementation(libs.logging.timber)
+
+    testImplementation(projects.testing)
+    testImplementation(libs.test.okhttp.mockwebserver)
+    testRuntimeOnly(libs.test.jupiter.engine)
+
     ksp(libs.di.hilt.compiler)
 }
