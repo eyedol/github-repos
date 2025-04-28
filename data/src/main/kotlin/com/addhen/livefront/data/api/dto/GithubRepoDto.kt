@@ -31,30 +31,30 @@ data class GithubRepoDto(
     companion object
 }
 
-fun GithubRepoDto.Companion.fakes(id : Long = 1): GithubRepoDto {
+internal fun GithubRepoDto.Companion.fakes(id : Long = 1): GithubRepoDto {
     return GithubRepoDto(
         id = id,
         description = "Fake repo description $id",
-        full_name = "Fake repo full name $id",
+        full_name = "Fake repo/full name $id",
         stargazers_count = 1,
         owner = GithubRepoDto.OwnerDto(
             id = id,
-            login = "Fake owner login $id",
+            login = "fakeOwner$id",
             avatar_url = "Fake owner avatar url",
         ),
         contributor = GithubRepoDto.ContributorDto(
             id = id,
-            login = "Fake contributor login",
+            login = "fakeOwner$id",
             contributions = 2,
-            avatar_url = "Fake contributor avatar url",
+            avatar_url = "Fake contributor avatar url$id",
         )
     )
 }
 
-fun GithubRepoDto.ContributorDto.Companion.fakes(id: Long = 1): GithubRepoDto.ContributorDto {
+internal fun GithubRepoDto.ContributorDto.Companion.fakes(id: Long = 1): GithubRepoDto.ContributorDto {
     return GithubRepoDto.ContributorDto(
         id = id,
-        login = "Fake contributor login",
+        login = "fakeOwner$id",
         contributions = 2,
         avatar_url = "Fake contributor avatar url"
     )

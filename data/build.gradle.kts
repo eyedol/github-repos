@@ -24,6 +24,7 @@ dependencies {
 
     testImplementation(projects.testing)
     testImplementation(libs.test.okhttp.mockwebserver)
+    testImplementation(libs.test.paging.testing.android)
 
     ksp(libs.di.hilt.compiler)
 }

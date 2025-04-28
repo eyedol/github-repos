@@ -9,6 +9,7 @@ import com.addhen.livefront.data.api.dto.GithubRepoDto.OwnerDto
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.model.GithubRepo.Contributor
 import com.addhen.livefront.data.model.GithubRepo.Owner
+import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 
 class GithubRepoPagingSource(
@@ -38,6 +39,7 @@ class GithubRepoPagingSource(
                     val contributors = apiService.getContributors(owner, repoName)
                     repo.copy(contributor = contributors.firstOrNull())
                 } catch (e: Exception) {
+                    println("Failed to fetch contributors for repo: ${e.message}")
                     // If we fail to fetch contributors, return repo without a contributor
                     Timber.e(e, "Failed to fetch contributors for repo: ${repo.full_name}")
                     repo
@@ -49,13 +51,15 @@ class GithubRepoPagingSource(
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (response.items.isEmpty()) null else page + 1,
             )
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
 }
 
-private fun GithubRepoDto.toGithubRepo(): GithubRepo {
+internal fun GithubRepoDto.toGithubRepo(): GithubRepo {
     return GithubRepo(
         id = id,
         fullName = full_name,
@@ -66,7 +70,11 @@ private fun GithubRepoDto.toGithubRepo(): GithubRepo {
     )
 }
 
-private fun OwnerDto.toOwner(): Owner {
+internal fun List<GithubRepoDto>.toGithubRepoList(): List<GithubRepo> {
+    return map { it.toGithubRepo() }
+}
+
+internal fun OwnerDto.toOwner(): Owner {
     return Owner(
         id = id,
         login = login,
@@ -74,11 +82,15 @@ private fun OwnerDto.toOwner(): Owner {
     )
 }
 
-private fun ContributorDto.toContributor(): Contributor {
+internal fun ContributorDto.toContributor(): Contributor {
     return Contributor(
         id = id,
         login = login,
         contributions = contributions,
         avatarUrl = avatar_url,
     )
+}
+
+internal fun List<ContributorDto>.toContributorList(): List<Contributor> {
+    return map { it.toContributor() }
 }
