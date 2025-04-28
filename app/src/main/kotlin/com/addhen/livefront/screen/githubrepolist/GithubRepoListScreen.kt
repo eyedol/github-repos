@@ -1,9 +1,7 @@
-// Copyright 2024, Brightwheel sample app project contributors
-// SPDX-License-Identifier: Apache-2.0
-
 package com.addhen.livefront.screen.githubrepolist
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,27 +34,46 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.addhen.livefront.R
 import com.addhen.livefront.data.model.GithubRepo
+import com.addhen.livefront.ui.component.AppScaffold
 import com.addhen.livefront.ui.component.ConnectivityStatus
 import com.addhen.livefront.ui.theme.starYellow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
 
-// Compose UI
+@Composable
+fun GithubRepoListScreen(
+    modifier: Modifier = Modifier,
+    viewModel: GithubRepoListViewModel = hiltViewModel(),
+    onRepoClick: (repoId: Long) -> Unit,
+) {
+    val pagingItems = viewModel.searchResults.collectAsLazyPagingItems()
+    AppScaffold(
+        title = stringResource(R.string.app_name),
+        modifier = modifier,
+    ) {
+        GithubRepoContent(
+            pagingItems = pagingItems,
+            onRepoClick = onRepoClick,
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
 @OptIn(
     ExperimentalAnimationApi::class,
     ExperimentalCoroutinesApi::class,
 )
 @Composable
-fun GithubRepoListScreen(
-    modifier: Modifier = Modifier,
-    viewModel: GithubRepoListViewModel = hiltViewModel(),
+private fun GithubRepoContent(
+    pagingItems: LazyPagingItems<GithubRepo>,
+    onRepoClick: (repoId: Long) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val pagingItems = viewModel.searchResults.collectAsLazyPagingItems()
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -70,7 +87,12 @@ fun GithubRepoListScreen(
                 key = { index -> pagingItems[index]?.id ?: index },
             ) { index ->
                 pagingItems[index]?.let { repo ->
-                    RepositoryItem(repo = repo)
+                    RepositoryItem(
+                        repo = repo,
+                        onRepoClick = {
+                            onRepoClick(repo.id)
+                        }
+                    )
                 }
             }
 
@@ -110,11 +132,13 @@ fun GithubRepoListScreen(
 fun RepositoryItem(
     repo: GithubRepo,
     modifier: Modifier = Modifier,
+    onRepoClick: () -> Unit,
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .clickable { onRepoClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
         Column(

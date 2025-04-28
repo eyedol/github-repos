@@ -4,8 +4,11 @@
 package com.addhen.livefront.data.di
 
 import com.addhen.livefront.data.api.GithubApiService
+import com.addhen.livefront.data.cache.MemoryStorage
+import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.respository.GithubRepoDataRepository
 import com.addhen.livefront.data.respository.GithubRepoRepository
+import com.addhen.livefront.data.cache.StorageInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,9 +55,17 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideGithubRepoRepository(apiService: GithubApiService): GithubRepoRepository {
-        return GithubRepoDataRepository(apiService)
+    fun provideGithubRepoRepository(
+        apiService: GithubApiService,
+        storage: StorageInterface<GithubRepo>
+    ): GithubRepoRepository {
+        return GithubRepoDataRepository(apiService, storage)
     }
+
+    @Provides
+    @Singleton
+    fun provideGithubRepoStorage(
+    ): StorageInterface<GithubRepo> = MemoryStorage()
 
     @Provides
     @Singleton

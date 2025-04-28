@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GithubRepoRepository {
     fun searchRepos(query: String): Flow<PagingData<GithubRepo>>
+
+    fun getRepoDetails(id: Long): Flow<GithubRepo?>
 }

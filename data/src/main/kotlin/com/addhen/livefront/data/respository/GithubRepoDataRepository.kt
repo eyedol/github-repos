@@ -5,11 +5,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.addhen.livefront.data.api.GithubApiService
 import com.addhen.livefront.data.model.GithubRepo
+import com.addhen.livefront.data.cache.StorageInterface
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GithubRepoDataRepository @Inject constructor(
     private val apiService: GithubApiService,
+    private val storage: StorageInterface<GithubRepo>,
 ): GithubRepoRepository {
 
     override fun searchRepos(query: String): Flow<PagingData<GithubRepo>> {
@@ -19,7 +22,13 @@ class GithubRepoDataRepository @Inject constructor(
                 enablePlaceholders = false,
                 maxSize = 100,
             ),
-            pagingSourceFactory = { GithubRepoPagingSource(apiService, query) },
+            pagingSourceFactory = { GithubRepoPagingSource(apiService, storage, query) },
         ).flow
+    }
+
+    override fun getRepoDetails(id: Long): Flow<GithubRepo?> {
+        return storage.all().map {
+            it.firstOrNull { it.id == id }
+        }
     }
 }

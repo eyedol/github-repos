@@ -11,4 +11,5 @@
     <string name="network_connectivity_no_network_connection">No network connection</string>
     <string name="network_connection_available">Network connection is available</string>
     <string name="backgroundcolor_content_description">Background color</string>
+    <string name="back_icon_content_description">Back Icon</string>
 </resources>

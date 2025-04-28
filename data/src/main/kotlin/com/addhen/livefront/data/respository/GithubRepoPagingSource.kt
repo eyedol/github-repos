@@ -9,11 +9,13 @@ import com.addhen.livefront.data.api.dto.GithubRepoDto.OwnerDto
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.model.GithubRepo.Contributor
 import com.addhen.livefront.data.model.GithubRepo.Owner
+import com.addhen.livefront.data.cache.StorageInterface
 import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 
 class GithubRepoPagingSource(
     private val apiService: GithubApiService,
+    private val storage: StorageInterface<GithubRepo>,
     private val query: String,
 ) : PagingSource<Int, GithubRepo>() {
 
@@ -36,18 +38,21 @@ class GithubRepoPagingSource(
             val reposWithContributors = response.items.map { repo ->
                 val (owner, repoName) = repo.full_name.split("/")
                 try {
-                    val contributors = apiService.getContributors(owner, repoName)
-                    repo.copy(contributor = contributors.firstOrNull())
+                    val contributors = apiService.getContributors(owner, repoName, 10)
+                    repo.toGithubRepo().copy(
+                        contributor = contributors.firstOrNull()?.toContributor(),
+                        contributors = contributors.toContributorList())
                 } catch (e: Exception) {
                     println("Failed to fetch contributors for repo: ${e.message}")
                     // If we fail to fetch contributors, return repo without a contributor
                     Timber.e(e, "Failed to fetch contributors for repo: ${repo.full_name}")
-                    repo
+                    repo.toGithubRepo()
                 }
             }
 
+            storage.append(reposWithContributors)
             LoadResult.Page(
-                data = reposWithContributors.map { it.toGithubRepo() },
+                data = reposWithContributors,
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (response.items.isEmpty()) null else page + 1,
             )
@@ -62,9 +67,11 @@ class GithubRepoPagingSource(
 internal fun GithubRepoDto.toGithubRepo(): GithubRepo {
     return GithubRepo(
         id = id,
+        name = name,
         fullName = full_name,
         description = description,
         stargazersCount = stargazers_count,
+        htmlUrl = html_url,
         owner = owner.toOwner(),
         contributor = contributor?.toContributor(),
     )
@@ -88,6 +95,7 @@ internal fun ContributorDto.toContributor(): Contributor {
         login = login,
         contributions = contributions,
         avatarUrl = avatar_url,
+        htmlUrl = html_url
     )
 }
 
