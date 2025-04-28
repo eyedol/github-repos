@@ -7,7 +7,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.compose.rememberNavController
 import com.addhen.livefront.ui.component.AppSurface
+import com.addhen.livefront.ui.navigation.AppNavGraph
 import com.addhen.livefront.ui.theme.LivefrontTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LivefrontTheme {
-                AppSurface {
-                }
+                val navController = rememberNavController()
+                AppSurface { AppNavGraph(navController = navController) }
             }
         }
     }

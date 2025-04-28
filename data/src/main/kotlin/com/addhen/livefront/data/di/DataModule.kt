@@ -4,6 +4,8 @@
 package com.addhen.livefront.data.di
 
 import com.addhen.livefront.data.api.GithubApiService
+import com.addhen.livefront.data.respository.GithubRepoDataRepository
+import com.addhen.livefront.data.respository.GithubRepoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,6 +48,12 @@ object DataModule {
     @Singleton
     fun provideGithubApiService(retrofit: Retrofit): GithubApiService {
         return retrofit.create(GithubApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGithubRepoRepository(apiService: GithubApiService): GithubRepoRepository {
+        return GithubRepoDataRepository(apiService)
     }
 
     @Provides

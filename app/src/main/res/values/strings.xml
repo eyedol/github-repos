@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Github Repos</string>
+    <string name="star_icon_content_description">Starred icon</string>
+    <string name="error_occurred_while_loading">Error occurred while loading</string>
+    <string name="contributor_avatar">Contributor avatar</string>
+    <string name="top_contributor">Top contributor: %1$s</string>
+    <string name="commits">(%1$s commits)</string>
+    <string name="retry">Retry</string>
+    <string name="owner_avatar_image_content_description">Owner Avatar Image</string>
+    <string name="network_connectivity_icon_content_description">Network connectivity icon</string>
+    <string name="network_connectivity_no_network_connection">No network connection</string>
+    <string name="network_connection_available">Network connection is available</string>
+    <string name="backgroundcolor_content_description">Background color</string>
 </resources>
