@@ -6,7 +6,6 @@ package com.addhen.livefront.screen.githubrepolist
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,10 +20,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -52,6 +49,8 @@ import com.addhen.livefront.formatStars
 import com.addhen.livefront.ui.component.AboutDialog
 import com.addhen.livefront.ui.component.AppScaffold
 import com.addhen.livefront.ui.component.ConnectivityStatus
+import com.addhen.livefront.ui.component.ErrorInfo
+import com.addhen.livefront.ui.component.LoadingIndicator
 import com.addhen.livefront.ui.theme.starYellow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
@@ -122,26 +121,27 @@ private fun GithubRepoContent(
             pagingItems.apply {
                 when {
                     loadState.refresh is LoadState.Loading -> {
-                        item { LoadingItem(modifier = Modifier.fillParentMaxSize()) }
+                        item { LoadingIndicator(modifier = Modifier.fillParentMaxSize()) }
                     }
                     loadState.append is LoadState.Loading -> {
-                        item { LoadingItem() }
+                        item { LoadingIndicator() }
                     }
                     loadState.refresh is LoadState.Error -> {
                         Timber.e((loadState.refresh as LoadState.Error).error, "Error occurred while loading")
                         item {
-                            ErrorItem(
+                            ErrorInfo(
+                                modifier = Modifier.fillParentMaxSize(),
                                 message = stringResource(R.string.error_occurred_while_loading),
-                                onRetryClick = { retry() },
+                                onRetry = { retry() },
                             )
                         }
                     }
                     loadState.append is LoadState.Error -> {
                         Timber.e((loadState.append as LoadState.Error).error, "Error occurred while appending")
                         item {
-                            ErrorItem(
+                            ErrorInfo(
                                 message = stringResource(R.string.error_occurred_while_loading),
-                                onRetryClick = { retry() },
+                                onRetry = { retry() },
                             )
                         }
                     }
@@ -239,40 +239,6 @@ fun RepositoryItem(
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun LoadingItem(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-fun ErrorItem(
-    message: String,
-    modifier: Modifier = Modifier,
-    onRetryClick: () -> Unit,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(text = message)
-        Button(
-            onClick = onRetryClick,
-            modifier = Modifier.padding(top = 8.dp),
-        ) {
-            Text(text = stringResource(R.string.retry))
         }
     }
 }

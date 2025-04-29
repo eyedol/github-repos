@@ -139,6 +139,7 @@ class GithubRepoDataRepositoryTest {
                 login = "fakeOwner1",
                 contributions = 2,
                 avatar_url = "Fake contributor avatar url",
+                html_url = "Fake contributor url",
             )
 
             val githubRepo = GithubRepoDto(
@@ -152,6 +153,8 @@ class GithubRepoDataRepositoryTest {
                     avatar_url = "Fake owner avatar url",
                 ),
                 contributor = if (contributorFailed) null else contributor,
+                html_url = "Fake repo url",
+                name = "Fake repo",
             )
 
             return GithubRepoResponseDto(
