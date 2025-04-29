@@ -17,12 +17,8 @@ class GithubRepoDataRepository @Inject constructor(
 
     override fun searchRepos(query: String): Flow<PagingData<GithubRepo>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = 30,
-                enablePlaceholders = false,
-                maxSize = 100,
-            ),
-            pagingSourceFactory = { GithubRepoPagingSource(apiService, storage, query) },
+            config = PagingConfig(pageSize = 10),
+            pagingSourceFactory = { GithubRepoPagingSource(apiService, storage, query) }
         ).flow
     }
 
