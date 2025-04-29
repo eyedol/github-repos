@@ -46,6 +46,7 @@ import com.addhen.livefront.screen.githubrepodetail.GithubRepoDetailViewModel.Re
 import com.addhen.livefront.ui.component.AppScaffold
 import com.addhen.livefront.ui.component.ErrorInfo
 import com.addhen.livefront.ui.component.LoadingIndicator
+import com.addhen.livefront.ui.theme.starYellow
 
 @Composable
 fun GithubRepoDetailScreen(
@@ -89,7 +90,7 @@ private fun GithuRepoDetailContent(
             githubRepo != null -> {
                 GithuRepoDetailContent(
                     modifier = modifier,
-                    repo = githubRepo!!,
+                    repo = githubRepo,
                 )
             }
 
@@ -122,7 +123,7 @@ fun GithuRepoDetailContent(
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .error(R.drawable.ic_launcher_foreground)
                     .build(),
-                contentDescription = "${repo.owner.login} avatar",
+                contentDescription = stringResource(R.string.avatar, repo.owner.login),
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape),
@@ -138,8 +139,8 @@ fun GithuRepoDetailContent(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Star,
-                        contentDescription = "Stars",
-                        tint = Color(0xFFFFC107),
+                        contentDescription = stringResource(R.string.star_icon_content_description),
+                        tint = starYellow,
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
@@ -155,7 +156,7 @@ fun GithuRepoDetailContent(
 
         // Description
         Text(
-            text = repo.description ?: "No description available.",
+            text = repo.description ?: stringResource(R.string.no_description_available),
             fontSize = 16.sp,
             style = MaterialTheme.typography.bodyMedium
         )
@@ -164,7 +165,7 @@ fun GithuRepoDetailContent(
 
         // Link to GitHub
         Button(onClick = { uriHandler.openUri(repo.htmlUrl) }) {
-            Text("View on GitHub")
+            Text(stringResource(R.string.view_on_github))
         }
 
 
@@ -172,7 +173,7 @@ fun GithuRepoDetailContent(
 
         // Contributors Section
         Text(
-            text = "Top Contributors",
+            text = stringResource(R.string.top_contributors),
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp
         )
@@ -189,7 +190,7 @@ fun GithuRepoDetailContent(
                    }
                }
            } else -> {
-               Text("No contributors found.")
+               Text(stringResource(R.string.no_contributors_found))
            }
        }
     }
@@ -217,7 +218,7 @@ fun ContributorItem(
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .error(R.drawable.ic_launcher_foreground)
                 .build(),
-            contentDescription = "${contributor.login} avatar",
+            contentDescription = stringResource(R.string.avatar, contributor.login),
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape),
@@ -231,7 +232,7 @@ fun ContributorItem(
             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
         )
         Text(
-            text = "${contributor.contributions} commits",
+            text = stringResource(R.string.commits, contributor.contributions),
             fontSize = 10.sp,
             color = Color.Gray,
             maxLines = 1
