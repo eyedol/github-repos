@@ -8,6 +8,7 @@ plugins {
     id("com.addhen.livefront.compose.android")
     id("com.addhen.livefront.hilt.android")
     id("com.addhen.livefront.serialization")
+    id("com.addhen.livefront.junit5")
 }
 
 android {
@@ -46,5 +47,8 @@ dependencies {
     // Dagger Hilt
     implementation(libs.di.hilt.android)
     implementation(libs.multidex)
+
+    testImplementation(projects.testing)
+    testImplementation(libs.test.paging.testing.android)
     ksp(libs.di.hilt.compiler)
 }
