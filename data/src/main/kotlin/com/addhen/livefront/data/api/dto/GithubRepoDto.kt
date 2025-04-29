@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.api.dto
 
 import kotlinx.serialization.Serializable
@@ -11,7 +14,7 @@ data class GithubRepoDto(
     val stargazers_count: Int,
     val owner: OwnerDto,
     val contributor: ContributorDto? = null,
-    val html_url: String
+    val html_url: String,
 ) {
     @Serializable
     data class OwnerDto(
@@ -26,7 +29,7 @@ data class GithubRepoDto(
         val login: String,
         val contributions: Int,
         val avatar_url: String?,
-        val html_url: String
+        val html_url: String,
     ) {
         companion object
     }
@@ -34,7 +37,7 @@ data class GithubRepoDto(
     companion object
 }
 
-internal fun GithubRepoDto.Companion.fakes(id : Long = 1): GithubRepoDto {
+internal fun GithubRepoDto.Companion.fakes(id: Long = 1): GithubRepoDto {
     return GithubRepoDto(
         id = id,
         name = "Fake repo $id",
@@ -52,8 +55,8 @@ internal fun GithubRepoDto.Companion.fakes(id : Long = 1): GithubRepoDto {
             login = "fakeOwner$id",
             contributions = 2,
             avatar_url = "Fake contributor avatar url$id",
-            html_url = "Fake contributor url$id"
-        )
+            html_url = "Fake contributor url$id",
+        ),
     )
 }
 
@@ -63,6 +66,6 @@ internal fun GithubRepoDto.ContributorDto.Companion.fakes(id: Long = 1): GithubR
         login = "fakeOwner$id",
         contributions = 2,
         avatar_url = "Fake contributor avatar url",
-        html_url = "Fake contributor url"
+        html_url = "Fake contributor url",
     )
 }

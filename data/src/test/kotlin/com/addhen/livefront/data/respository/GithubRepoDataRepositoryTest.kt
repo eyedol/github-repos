@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.respository
 
 import androidx.paging.testing.asSnapshot
@@ -53,7 +56,6 @@ class GithubRepoDataRepositoryTest {
 
         val result = repository.searchRepos(searchQuery).asSnapshot()
 
-
         val request = apiService.takeRequest()
         assertEquals("/search/repositories?sort=stars&order=desc&q=kotlin&page=1&per_page=90", request.path)
         assertTrue(result.isNotEmpty())
@@ -68,7 +70,7 @@ class GithubRepoDataRepositoryTest {
         apiService.enqueue(
             MockResponse()
                 .setResponseCode(HttpURLConnection.HTTP_OK)
-                .setBody(mockResponseJson)
+                .setBody(mockResponseJson),
         )
 
         val result = repository.searchRepos(query).asSnapshot()
@@ -86,7 +88,7 @@ class GithubRepoDataRepositoryTest {
         apiService.enqueue(
             MockResponse()
                 .setResponseCode(HttpURLConnection.HTTP_INTERNAL_ERROR)
-                .setBody("Server Error")
+                .setBody("Server Error"),
         )
 
         val runTestBlock: () -> Unit = {
@@ -100,7 +102,7 @@ class GithubRepoDataRepositoryTest {
         assertEquals("/search/repositories?sort=stars&order=desc&q=some-error-query&page=1&per_page=90", request.path)
     }
 
-    inner class LoadDispatcher(val contributorFailed: Boolean = false, val reposFailed: Boolean = false): Dispatcher() {
+    inner class LoadDispatcher(val contributorFailed: Boolean = false, val reposFailed: Boolean = false) : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return when {
                 request.path?.startsWith("/search/repositories") == true -> {
@@ -136,7 +138,7 @@ class GithubRepoDataRepositoryTest {
                 id = 1,
                 login = "fakeOwner1",
                 contributions = 2,
-                avatar_url = "Fake contributor avatar url"
+                avatar_url = "Fake contributor avatar url",
             )
 
             val githubRepo = GithubRepoDto(
@@ -153,7 +155,7 @@ class GithubRepoDataRepositoryTest {
             )
 
             return GithubRepoResponseDto(
-                items = (1..3).map { githubRepo.copy(id = it.toLong())}
+                items = (1..3).map { githubRepo.copy(id = it.toLong()) },
             )
         }
     }

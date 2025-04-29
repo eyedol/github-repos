@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.respository
 
 import androidx.paging.PagingSource
@@ -6,10 +9,10 @@ import com.addhen.livefront.data.api.GithubApiService
 import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoDto.ContributorDto
 import com.addhen.livefront.data.api.dto.GithubRepoDto.OwnerDto
+import com.addhen.livefront.data.cache.StorageInterface
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.model.GithubRepo.Contributor
 import com.addhen.livefront.data.model.GithubRepo.Owner
-import com.addhen.livefront.data.cache.StorageInterface
 import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 
@@ -41,7 +44,8 @@ class GithubRepoPagingSource(
                     val contributors = apiService.getContributors(owner, repoName, 10)
                     repo.toGithubRepo().copy(
                         contributor = contributors.firstOrNull()?.toContributor(),
-                        contributors = contributors.toContributorList())
+                        contributors = contributors.toContributorList(),
+                    )
                 } catch (e: Exception) {
                     // If we fail to fetch contributors, return repo without a contributor
                     Timber.e(e, "Failed to fetch contributors for repo: ${repo.full_name}")
@@ -94,7 +98,7 @@ internal fun ContributorDto.toContributor(): Contributor {
         login = login,
         contributions = contributions,
         avatarUrl = avatar_url,
-        htmlUrl = html_url
+        htmlUrl = html_url,
     )
 }
 

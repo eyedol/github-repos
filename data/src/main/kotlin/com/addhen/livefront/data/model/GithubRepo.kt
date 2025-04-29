@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.model
 
 data class GithubRepo(
@@ -9,7 +12,7 @@ data class GithubRepo(
     val htmlUrl: String,
     val owner: Owner,
     val contributor: Contributor? = null,
-    val contributors: List<Contributor> = emptyList()
+    val contributors: List<Contributor> = emptyList(),
 ) {
     data class Owner(
         val login: String,
@@ -22,7 +25,7 @@ data class GithubRepo(
         val login: String,
         val contributions: Int,
         val avatarUrl: String?,
-        val htmlUrl: String
+        val htmlUrl: String,
     ) {
         companion object
     }

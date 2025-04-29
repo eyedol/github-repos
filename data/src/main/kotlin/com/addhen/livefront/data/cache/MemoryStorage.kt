@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.cache
 
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class MemoryStorage<E> @Inject constructor(
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : StorageInterface<E> {
 
     private val emitter = MutableStateFlow<List<E>>(emptyList())

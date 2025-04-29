@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.screen.githubrepolist
 
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -27,9 +30,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,7 +73,7 @@ fun GithubRepoListScreen(
             IconButton(onClick = { showAboutDialog = true }) {
                 Icon(Icons.Filled.Info, contentDescription = stringResource(R.string.about_dialog_title))
             }
-        }
+        },
     ) {
         GithubRepoContent(
             pagingItems = pagingItems,
@@ -92,7 +95,7 @@ fun GithubRepoListScreen(
 private fun GithubRepoContent(
     pagingItems: LazyPagingItems<GithubRepo>,
     onRepoClick: (repoId: Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -111,7 +114,7 @@ private fun GithubRepoContent(
                         repo = repo,
                         onRepoClick = {
                             onRepoClick(repo.id)
-                        }
+                        },
                     )
                 }
             }

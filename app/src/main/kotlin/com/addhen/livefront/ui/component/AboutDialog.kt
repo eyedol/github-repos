@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.ui.component
 
 import androidx.compose.foundation.layout.Column
@@ -24,7 +27,7 @@ import com.addhen.livefront.R
 @Composable
 fun AboutDialog(
     modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     val appVersion = BuildConfig.VERSION_NAME
 
@@ -38,17 +41,17 @@ fun AboutDialog(
         ) {
             Column(
                 modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 AsyncImage(
                     model = R.mipmap.ic_launcher_round,
                     contentDescription = stringResource(R.string.app_logo_content_description),
-                    modifier = Modifier.size(80.dp)
+                    modifier = Modifier.size(80.dp),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.headlineSmall,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = stringResource(R.string.version, appVersion), style = MaterialTheme.typography.bodyMedium)

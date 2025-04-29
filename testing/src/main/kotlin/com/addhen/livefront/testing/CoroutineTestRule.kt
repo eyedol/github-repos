@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.testing
 
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +16,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
 
 @ExperimentalCoroutinesApi
 class CoroutineTestRule(
-    val dispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+    val dispatcher: TestDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler()),
 ) : BeforeEachCallback, AfterEachCallback {
 
     override fun beforeEach(context: ExtensionContext?) {

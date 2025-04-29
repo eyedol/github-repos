@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +23,7 @@ import com.addhen.livefront.R
 fun ErrorInfo(
     message: String,
     modifier: Modifier = Modifier,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -28,7 +31,7 @@ fun ErrorInfo(
             .padding(16.dp)
             .then(modifier),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = message, color = MaterialTheme.colorScheme.error)
         Spacer(modifier = Modifier.height(8.dp))

@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.api
 
 import com.addhen.livefront.data.api.dto.GithubRepoDto
@@ -12,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 class FakeGithubApiService(
-    private val mockWebServer: MockWebServer = MockWebServer()
+    private val mockWebServer: MockWebServer = MockWebServer(),
 ) : GithubApiService {
 
     val json = DataModule.provideJson()
@@ -23,7 +26,7 @@ class FakeGithubApiService(
     override suspend fun getContributors(
         owner: String,
         repo: String,
-        perPage: Int
+        perPage: Int,
     ): List<GithubRepoDto.ContributorDto> {
         return githubApiService.getContributors(owner, repo, perPage)
     }
@@ -31,7 +34,7 @@ class FakeGithubApiService(
     override suspend fun getRepos(
         query: String,
         page: Int,
-        perPage: Int
+        perPage: Int,
     ): GithubRepoResponseDto {
         return githubApiService.getRepos(query, page, perPage)
     }
@@ -50,7 +53,6 @@ class FakeGithubApiService(
 
     fun takeRequest(): RecordedRequest {
         return mockWebServer.takeRequest()
-
     }
 
     fun setDispatcher(dispatcher: Dispatcher) {

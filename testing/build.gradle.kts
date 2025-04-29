@@ -1,3 +1,7 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
+
 plugins {
     id("com.addhen.livefront.android.library")
     id("com.addhen.livefront.kotlin.android")

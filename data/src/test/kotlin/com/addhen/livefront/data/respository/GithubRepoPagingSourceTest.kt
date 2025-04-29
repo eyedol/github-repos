@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.respository
 
 import androidx.paging.PagingConfig
@@ -60,7 +63,7 @@ class GithubRepoPagingSourceTest {
                 pages = listOf(),
                 anchorPosition = null,
                 config = PagingConfig(pageSize = 20),
-                leadingPlaceholderCount = 0
+                leadingPlaceholderCount = 0,
             )
 
             val result = pagingSource.getRefreshKey(pagingState)
@@ -75,12 +78,12 @@ class GithubRepoPagingSourceTest {
                 pages = listOf(),
                 anchorPosition = 0,
                 config = PagingConfig(pageSize = 20),
-                leadingPlaceholderCount = 0
+                leadingPlaceholderCount = 0,
             )
 
             val result = pagingSource.getRefreshKey(pagingState)
 
-             assertEquals(null, result)
+            assertEquals(null, result)
         }
 
         @Test
@@ -96,13 +99,13 @@ class GithubRepoPagingSourceTest {
             val page = PagingSource.LoadResult.Page(
                 data = githubRepo.items.toGithubRepoList(),
                 prevKey = 3,
-                nextKey = 5
+                nextKey = 5,
             )
             val pagingState = PagingState(
                 pages = listOf(page),
                 anchorPosition = 0,
                 config = PagingConfig(pageSize = 20),
-                leadingPlaceholderCount = 0
+                leadingPlaceholderCount = 0,
             )
 
             val result = pagingSource.getRefreshKey(pagingState)
@@ -124,13 +127,13 @@ class GithubRepoPagingSourceTest {
             val page = PagingSource.LoadResult.Page(
                 data = githubRepo.items.toGithubRepoList(),
                 prevKey = null,
-                nextKey = 5
+                nextKey = 5,
             )
             val pagingState = PagingState(
                 pages = listOf(page),
                 anchorPosition = 0,
                 config = PagingConfig(pageSize = 20),
-                leadingPlaceholderCount = 0
+                leadingPlaceholderCount = 0,
             )
 
             val result = pagingSource.getRefreshKey(pagingState)
@@ -151,7 +154,7 @@ class GithubRepoPagingSourceTest {
             val loadParams = PagingSource.LoadParams.Refresh<Int>(
                 key = null,
                 loadSize = loadSize,
-                placeholdersEnabled = false
+                placeholdersEnabled = false,
             )
 
             val result = pagingSource.load(loadParams)
@@ -178,7 +181,7 @@ class GithubRepoPagingSourceTest {
             val loadParams = PagingSource.LoadParams.Refresh(
                 key = page,
                 loadSize = loadSize,
-                placeholdersEnabled = false
+                placeholdersEnabled = false,
             )
 
             val result = pagingSource.load(loadParams)
@@ -205,7 +208,7 @@ class GithubRepoPagingSourceTest {
             val loadParams = PagingSource.LoadParams.Refresh(
                 key = 1,
                 loadSize = 10,
-                placeholdersEnabled = false
+                placeholdersEnabled = false,
             )
 
             val result = pagingSource.load(loadParams)
@@ -224,7 +227,7 @@ class GithubRepoPagingSourceTest {
             val loadParams = PagingSource.LoadParams.Refresh<Int>(
                 key = null,
                 loadSize = 10,
-                placeholdersEnabled = false
+                placeholdersEnabled = false,
             )
 
             val result = pagingSource.load(loadParams)
@@ -244,7 +247,7 @@ class GithubRepoPagingSourceTest {
             val loadParams = PagingSource.LoadParams.Refresh<Int>(
                 key = null,
                 loadSize = 10,
-                placeholdersEnabled = false
+                placeholdersEnabled = false,
             )
 
             val result = pagingSource.load(loadParams)
@@ -257,7 +260,7 @@ class GithubRepoPagingSourceTest {
         }
     }
 
-    inner class LoadDispatcher(val contributorFailed: Boolean = false, val reposFailed: Boolean = false): Dispatcher() {
+    inner class LoadDispatcher(val contributorFailed: Boolean = false, val reposFailed: Boolean = false) : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return when {
                 request.path?.startsWith("/search/repositories") == true -> {
@@ -269,7 +272,7 @@ class GithubRepoPagingSourceTest {
                         id = 1,
                         login = "fakeOwner1",
                         contributions = 2,
-                        avatar_url = "Fake contributor avatar url"
+                        avatar_url = "Fake contributor avatar url",
                     )
 
                     val githubRepo = GithubRepoDto(
@@ -286,7 +289,7 @@ class GithubRepoPagingSourceTest {
                     )
 
                     val fakeRepoResponse = GithubRepoResponseDto(
-                        items = (1..3).map { githubRepo.copy(id = it.toLong())}
+                        items = (1..3).map { githubRepo.copy(id = it.toLong()) },
                     )
                     val jsonResponse = fakeApiService.json.encodeToString(fakeRepoResponse)
                     MockResponse()
@@ -309,6 +312,5 @@ class GithubRepoPagingSourceTest {
                 }
             }
         }
-
     }
 }

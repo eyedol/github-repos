@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.screen.githubrepodetail
 
 import androidx.compose.runtime.Stable
@@ -24,31 +27,31 @@ import javax.inject.Inject
 @HiltViewModel
 class GithubRepoDetailViewModel @Inject constructor(
     repository: GithubRepoRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val route = savedStateHandle.toRoute<GithubRepoDetailRoute>()
     private val _uiState = MutableStateFlow(RepoDetailUiState())
     val uiState: StateFlow<RepoDetailUiState> = _uiState.asStateFlow()
 
-    val githubRepo : StateFlow<GithubRepo?> = repository.getRepoDetails(route.id)
-    .onStart { _uiState.update { it.copy(isLoadingRepo = true, error = null) } }
-    .catch { e ->
-        Timber.d(e)
-        _uiState.update { it.copy(isLoadingRepo = false, error = "Failed to load repo details: ${e.message}") }
-    }
-    .onEach {
-        Timber.d("Repo details: $it")
-        _uiState.update { it.copy(isLoadingRepo = false, error = null) }
-    }
-    .stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = null
-    )
+    val githubRepo: StateFlow<GithubRepo?> = repository.getRepoDetails(route.id)
+        .onStart { _uiState.update { it.copy(isLoadingRepo = true, error = null) } }
+        .catch { e ->
+            Timber.d(e)
+            _uiState.update { it.copy(isLoadingRepo = false, error = "Failed to load repo details: ${e.message}") }
+        }
+        .onEach {
+            Timber.d("Repo details: $it")
+            _uiState.update { it.copy(isLoadingRepo = false, error = null) }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null,
+        )
 
     @Stable
     data class RepoDetailUiState(
         val isLoadingRepo: Boolean = true,
-        val error: String? = null
+        val error: String? = null,
     )
 }

@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.gradle.plugins
 
 import com.addhen.livefront.gradle.androidTestImplementation

@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.api
 
 import com.addhen.livefront.data.api.dto.GithubRepoDto
@@ -19,8 +22,8 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-import retrofit2.Retrofit
 import retrofit2.HttpException
+import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.net.HttpURLConnection
 
@@ -89,7 +92,7 @@ class GithubApiServiceTest {
             sut.getContributors(
                 owner = "addhen",
                 repo = "livefront",
-                perPage = 10
+                perPage = 10,
             )
 
             val request = mockWebServer.takeRequest()
@@ -127,7 +130,7 @@ class GithubApiServiceTest {
                 runTest { sut.getContributors(owner = "addhen", repo = "livefront") }
             }
 
-            assertThrows(Exception::class.java, runTestBlock, malformedErrorMessage )
+            assertThrows(Exception::class.java, runTestBlock, malformedErrorMessage)
         }
     }
 
@@ -146,7 +149,7 @@ class GithubApiServiceTest {
 
             mockWebServer.enqueue(mockResponse)
 
-            val result =sut.getRepos("android", 1, 2)
+            val result = sut.getRepos("android", 1, 2)
 
             val request = mockWebServer.takeRequest()
             assertEquals("/search/repositories?sort=stars&order=desc&q=android&page=1&per_page=2", request.path)

@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.screen.githubrepodetail
 
 import androidx.compose.foundation.clickable
@@ -53,9 +56,8 @@ import com.addhen.livefront.ui.theme.starYellow
 fun GithubRepoDetailScreen(
     viewModel: GithubRepoDetailViewModel,
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val githubRepo by viewModel.githubRepo.collectAsStateWithLifecycle()
 
@@ -63,7 +65,8 @@ fun GithubRepoDetailScreen(
         title = stringResource(R.string.app_name),
         modifier = modifier,
         navigationIcon = {
-            IconButton(onClick = onBackClick) { Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_icon_content_description)) } },
+            IconButton(onClick = onBackClick) { Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_icon_content_description)) }
+        },
     ) {
         GithuRepoDetailContent(
             githubRepo = githubRepo,
@@ -94,11 +97,9 @@ private fun GithuRepoDetailContent(
                     repo = githubRepo,
                 )
             }
-
         }
     }
 }
-
 
 @Composable
 fun GithuRepoDetailContent(
@@ -108,13 +109,13 @@ fun GithuRepoDetailContent(
     val scrollState = rememberScrollState()
     val uriHandler = LocalUriHandler.current
 
-
-   Column(
-        modifier = modifier.then(Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(16.dp)
-        )
+    Column(
+        modifier = modifier.then(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(16.dp),
+        ),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
@@ -128,26 +129,26 @@ fun GithuRepoDetailContent(
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = repo.fullName,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = stringResource(R.string.star_icon_content_description),
                         tint = starYellow,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = repo.stargazersCount.formatStars(),
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
                     )
                 }
             }
@@ -159,7 +160,7 @@ fun GithuRepoDetailContent(
         Text(
             text = repo.description ?: stringResource(R.string.no_description_available),
             fontSize = 16.sp,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -169,38 +170,37 @@ fun GithuRepoDetailContent(
             Text(stringResource(R.string.view_on_github))
         }
 
-
         Spacer(modifier = Modifier.height(24.dp))
 
         // Contributors Section
         Text(
             text = stringResource(R.string.top_contributors),
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
+            fontSize = 18.sp,
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-       when {
-           repo.contributors.isNotEmpty() -> {
-               LazyRow(
-                   horizontalArrangement = Arrangement.spacedBy(12.dp),
-                   contentPadding = PaddingValues(vertical = 8.dp)
-               ) {
-                   items(repo.contributors.size) { index ->
-                       ContributorItem(repo.contributors[index])
-                   }
-               }
-           } else -> {
-               Text(stringResource(R.string.no_contributors_found))
-           }
-       }
+        when {
+            repo.contributors.isNotEmpty() -> {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(vertical = 8.dp),
+                ) {
+                    items(repo.contributors.size) { index ->
+                        ContributorItem(repo.contributors[index])
+                    }
+                }
+            } else -> {
+                Text(stringResource(R.string.no_contributors_found))
+            }
+        }
     }
 }
 
 @Composable
 fun ContributorItem(
     contributor: Contributor,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val uriHandler = LocalUriHandler.current
     Column(
@@ -209,7 +209,7 @@ fun ContributorItem(
             .width(80.dp) // Fixed width for items in LazyRow
             .clickable { uriHandler.openUri(contributor.htmlUrl) }
             .padding(vertical = 4.dp)
-            .then(modifier)
+            .then(modifier),
 
     ) {
         AsyncImage(
@@ -223,20 +223,20 @@ fun ContributorItem(
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = contributor.login,
             fontSize = 12.sp,
             maxLines = 1,
-            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
         )
         Text(
             text = stringResource(R.string.commits, contributor.contributions),
             fontSize = 10.sp,
             color = Color.Gray,
-            maxLines = 1
+            maxLines = 1,
         )
     }
 }

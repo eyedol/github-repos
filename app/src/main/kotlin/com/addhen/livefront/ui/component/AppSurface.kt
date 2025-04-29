@@ -16,7 +16,7 @@ fun AppSurface(
 ) {
     // A surface container using the 'background' color from the theme
     AppBackground(modifier = modifier.fillMaxSize()) {
-       appNavHost()
+        appNavHost()
     }
 }
 

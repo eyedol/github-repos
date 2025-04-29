@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.ui.navigation
 
 import androidx.compose.runtime.Composable
@@ -20,7 +23,7 @@ fun AppNavGraph(navController: NavHostController) {
                 viewModel = hiltViewModel(),
                 onRepoClick = { repoId ->
                     navController.navigate(GithubRepoDetailRoute(repoId))
-                }
+                },
             )
         }
 
@@ -35,7 +38,7 @@ fun AppNavGraph(navController: NavHostController) {
                     if (navController.currentBackStackEntry?.lifecycle?.currentState == RESUMED) {
                         navController.popBackStack()
                     }
-                }
+                },
             )
         }
     }
