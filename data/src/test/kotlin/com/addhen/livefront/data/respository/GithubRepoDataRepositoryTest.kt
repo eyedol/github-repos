@@ -4,6 +4,7 @@
 package com.addhen.livefront.data.respository
 
 import androidx.paging.testing.asSnapshot
+import app.cash.turbine.test
 import com.addhen.livefront.data.api.FakeGithubApiService
 import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
@@ -61,8 +62,11 @@ class GithubRepoDataRepositoryTest {
         val result = repository.searchRepos(searchQuery).asSnapshot()
 
         val request = apiService.takeRequest()
-        assertEquals("/search/repositories?sort=stars&order=desc&q=kotlin&page=1&per_page=90", request.path)
+        assertEquals("/search/repositories?sort=stars&order=desc&q=kotlin&page=1&per_page=30", request.path)
         assertTrue(result.isNotEmpty())
+        memoryStorage.all().test {
+            assertEquals(result, awaitItem())
+        }
     }
 
     @Test
@@ -82,7 +86,10 @@ class GithubRepoDataRepositoryTest {
         assertTrue(result.isEmpty())
 
         val request = apiService.takeRequest()
-        assertEquals("/search/repositories?sort=stars&order=desc&q=non-existent-repo&page=1&per_page=90", request.path)
+        assertEquals("/search/repositories?sort=stars&order=desc&q=non-existent-repo&page=1&per_page=30", request.path)
+        memoryStorage.all().test {
+            assertEquals(result, awaitItem())
+        }
     }
 
     @Test
@@ -96,14 +103,20 @@ class GithubRepoDataRepositoryTest {
         )
 
         val runTestBlock: () -> Unit = {
-            runTest { repository.searchRepos(query).asSnapshot() }
+            runTest {
+                val result = repository.searchRepos(query).asSnapshot()
+
+                memoryStorage.all().test {
+                    assertEquals(result, awaitItem())
+                }
+            }
         }
 
         val exception = assertThrows(HttpException::class.java, runTestBlock)
         assertEquals("HTTP 500 Server Error", exception.message)
 
         val request = apiService.takeRequest()
-        assertEquals("/search/repositories?sort=stars&order=desc&q=some-error-query&page=1&per_page=90", request.path)
+        assertEquals("/search/repositories?sort=stars&order=desc&q=some-error-query&page=1&per_page=30", request.path)
     }
 
     inner class LoadDispatcher(val contributorFailed: Boolean = false, val reposFailed: Boolean = false) : Dispatcher() {

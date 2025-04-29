@@ -6,6 +6,7 @@ package com.addhen.livefront.data.respository
 import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import app.cash.turbine.test
 import com.addhen.livefront.data.api.FakeGithubApiService
 import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
@@ -174,6 +175,7 @@ class GithubRepoPagingSourceTest {
 
             val request = fakeApiService.takeRequest()
             assertEquals("/search/repositories?sort=stars&order=desc&q=android&page=1&per_page=20", request.path)
+            memoryStorage.all().test { assertEquals(result.data, awaitItem()) }
         }
 
         @Test
@@ -199,6 +201,9 @@ class GithubRepoPagingSourceTest {
 
             val request = fakeApiService.takeRequest()
             assertEquals("/search/repositories?sort=stars&order=desc&q=android&page=3&per_page=10", request.path)
+            memoryStorage.all().test {
+                assertEquals(result.data, awaitItem())
+            }
         }
 
         @Test
@@ -222,6 +227,9 @@ class GithubRepoPagingSourceTest {
 
             assertEquals(0, result.data.size)
             assertEquals(null, result.nextKey)
+            memoryStorage.all().test {
+                assertEquals(result.data, awaitItem())
+            }
         }
 
         @Test
@@ -242,6 +250,9 @@ class GithubRepoPagingSourceTest {
             assertEquals(3, result.data.size)
             assertEquals(null, result.data[0].contributor?.login)
             assertEquals(null, result.data[1].contributor)
+            memoryStorage.all().test {
+                assertEquals(result.data, awaitItem())
+            }
         }
 
         @Test
@@ -261,6 +272,7 @@ class GithubRepoPagingSourceTest {
 
             assertTrue(result.throwable is HttpException)
             assertEquals("HTTP 500 Server Error", result.throwable.message)
+            memoryStorage.all().test { assertEquals(emptyList<GithubRepo>(), awaitItem()) }
         }
     }
 
