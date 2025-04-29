@@ -33,7 +33,7 @@ fun Project.configureAndroid() {
             minSdk = libs.findVersion("minSdk").get().toString().toInt()
 
             versionCode = 1
-            versionName = "0.1.0"
+            versionName = libs.findVersion("versionName").get().toString()
         }
 
         lintOptions {
@@ -41,6 +41,8 @@ fun Project.configureAndroid() {
                 "ObsoleteLintCustomCheck",
             )
         }
+
+        buildFeatures.buildConfig = true
 
         compileOptions {
             isCoreLibraryDesugaringEnabled = true

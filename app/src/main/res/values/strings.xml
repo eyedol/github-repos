@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Github Repos</string>
+    <string name="app_description">A Github client that lists public repositories and their contributors. Highlighting a repository\'s top contributor</string>
     <string name="star_icon_content_description">Starred icon</string>
     <string name="error_occurred_while_loading">Error occurred while loading</string>
     <string name="contributor_avatar">Contributor avatar</string>
@@ -18,4 +19,8 @@
     <string name="top_contributors">Top Contributors</string>
     <string name="no_contributors_found">No contributors found.</string>
     <string name="avatar">%1$s avatar</string>
+    <string name="about_dialog_title">About</string>
+    <string name="close">Close</string>
+    <string name="version">Version %1$s</string>
+    <string name="app_logo_content_description">App Logo</string>
 </resources>

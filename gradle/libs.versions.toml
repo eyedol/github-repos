@@ -2,6 +2,7 @@
 minSdk = "23"
 targetSdk = "35"
 compileSdk = "35"
+versionName = "1.0.0-alpha"
 jdk = "21"
 ktlint = "0.48.2"
 agp = "8.9.2"
