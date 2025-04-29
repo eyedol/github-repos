@@ -39,6 +39,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.addhen.livefront.R
 import com.addhen.livefront.data.model.GithubRepo
+import com.addhen.livefront.formatStars
 import com.addhen.livefront.ui.component.AppScaffold
 import com.addhen.livefront.ui.component.ConnectivityStatus
 import com.addhen.livefront.ui.theme.starYellow
@@ -183,7 +184,7 @@ fun RepositoryItem(
                         tint = starYellow,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = "${repo.stargazersCount}")
+                    Text(text = repo.stargazersCount.formatStars())
                 }
             }
 

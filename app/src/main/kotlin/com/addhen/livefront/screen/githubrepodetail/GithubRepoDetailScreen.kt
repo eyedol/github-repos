@@ -42,6 +42,7 @@ import coil.request.ImageRequest
 import com.addhen.livefront.R
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.model.GithubRepo.Contributor
+import com.addhen.livefront.formatStars
 import com.addhen.livefront.screen.githubrepodetail.GithubRepoDetailViewModel.RepoDetailUiState
 import com.addhen.livefront.ui.component.AppScaffold
 import com.addhen.livefront.ui.component.ErrorInfo
@@ -145,7 +146,7 @@ fun GithuRepoDetailContent(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = formatStars(repo.stargazersCount),
+                        text = repo.stargazersCount.formatStars(),
                         fontSize = 16.sp
                     )
                 }
@@ -237,13 +238,5 @@ fun ContributorItem(
             color = Color.Gray,
             maxLines = 1
         )
-    }
-}
-
-fun formatStars(count: Int): String {
-    return when {
-        count >= 1_000_000 -> String.format("%.1fM", count / 1_000_000.0)
-        count >= 1_000 -> String.format("%.1fk", count / 1_000.0)
-        else -> count.toString()
     }
 }
