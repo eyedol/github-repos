@@ -43,7 +43,6 @@ class GithubRepoPagingSource(
                         contributor = contributors.firstOrNull()?.toContributor(),
                         contributors = contributors.toContributorList())
                 } catch (e: Exception) {
-                    println("Failed to fetch contributors for repo: ${e.message}")
                     // If we fail to fetch contributors, return repo without a contributor
                     Timber.e(e, "Failed to fetch contributors for repo: ${repo.full_name}")
                     repo.toGithubRepo()

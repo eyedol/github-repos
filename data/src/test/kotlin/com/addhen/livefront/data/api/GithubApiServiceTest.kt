@@ -140,7 +140,6 @@ class GithubApiServiceTest {
         fun `getRepos successful retrieval`() = runTest {
             val fakeRepoResponse = GithubRepoResponseDto.fakes()
             val jsonResponse = json.encodeToString(fakeRepoResponse)
-            println(jsonResponse)
             val mockResponse = MockResponse()
                 .setResponseCode(HttpURLConnection.HTTP_OK)
                 .setBody(jsonResponse)
