@@ -8,6 +8,8 @@ import com.addhen.livefront.data.api.FakeGithubApiService
 import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
 import com.addhen.livefront.data.api.dto.fakes
+import com.addhen.livefront.data.cache.MemoryStorage
+import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.testing.CoroutineTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -34,13 +36,15 @@ class GithubRepoDataRepositoryTest {
 
     private lateinit var apiService: FakeGithubApiService
     private lateinit var repository: GithubRepoDataRepository
+    private lateinit var memoryStorage: MemoryStorage<GithubRepo>
 
     @BeforeEach
     fun setup() {
         apiService = FakeGithubApiService()
         apiService.start()
 
-        repository = GithubRepoDataRepository(apiService)
+        memoryStorage = MemoryStorage<GithubRepo>(coroutineTestRule.dispatcher)
+        repository = GithubRepoDataRepository(apiService, memoryStorage)
     }
 
     @AfterEach

@@ -53,7 +53,7 @@ class GithubRepoPagingSource(
                 }
             }
 
-            storage.append(reposWithContributors)
+            storage.addAll(reposWithContributors)
             LoadResult.Page(
                 data = reposWithContributors,
                 prevKey = if (page == 1) null else page - 1,

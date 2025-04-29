@@ -21,7 +21,7 @@ class MemoryStorage<E> @Inject constructor(
 
     override fun all(): Flow<List<E>> = emitter.asSharedFlow()
 
-    override suspend fun append(elements: List<E>) = withContext(dispatcher) {
+    override suspend fun addAll(elements: List<E>) = withContext(dispatcher) {
         val newList = emitter.value.toMutableList()
         newList.addAll(elements)
         emitter.emit(newList)

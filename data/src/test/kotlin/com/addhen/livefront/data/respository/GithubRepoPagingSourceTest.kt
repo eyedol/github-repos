@@ -10,6 +10,7 @@ import com.addhen.livefront.data.api.FakeGithubApiService
 import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
 import com.addhen.livefront.data.api.dto.fakes
+import com.addhen.livefront.data.cache.MemoryStorage
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.testing.CoroutineTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,13 +39,16 @@ class GithubRepoPagingSourceTest {
 
     private lateinit var pagingSource: GithubRepoPagingSource
     private lateinit var fakeApiService: FakeGithubApiService
+    private lateinit var memoryStorage: MemoryStorage<GithubRepo>
     private val testQuery = "android"
 
     @BeforeEach
     fun setup() {
         fakeApiService = FakeGithubApiService()
         fakeApiService.start()
-        pagingSource = GithubRepoPagingSource(fakeApiService, testQuery)
+
+        memoryStorage = MemoryStorage<GithubRepo>(coroutineTestRule.dispatcher)
+        pagingSource = GithubRepoPagingSource(fakeApiService,memoryStorage, testQuery)
     }
 
     @AfterEach
@@ -273,6 +277,7 @@ class GithubRepoPagingSourceTest {
                         login = "fakeOwner1",
                         contributions = 2,
                         avatar_url = "Fake contributor avatar url",
+                        html_url = "Fake contributor url",
                     )
 
                     val githubRepo = GithubRepoDto(
@@ -286,6 +291,8 @@ class GithubRepoPagingSourceTest {
                             avatar_url = "Fake owner avatar url",
                         ),
                         contributor = if (contributorFailed) null else contributor,
+                        html_url = "Fake repo url",
+                        name = "Fake repo",
                     )
 
                     val fakeRepoResponse = GithubRepoResponseDto(
