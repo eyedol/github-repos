@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.addhen.livefront.R
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.formatStars
@@ -172,7 +174,12 @@ fun RepositoryItem(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 AsyncImage(
-                    model = repo.owner.avatarUrl,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(repo.owner.avatarUrl)
+                        .crossfade(true)
+                        .placeholder(R.drawable.ic_avatar_placeholder)
+                        .error(R.drawable.ic_avatar_placeholder_error)
+                        .build(),
                     contentDescription = stringResource(R.string.owner_avatar_image_content_description),
                     modifier = Modifier
                         .size(32.dp)
@@ -218,7 +225,12 @@ fun RepositoryItem(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     AsyncImage(
-                        model = contributor.avatarUrl,
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(contributor.avatarUrl)
+                            .crossfade(true)
+                            .placeholder(R.drawable.ic_avatar_placeholder)
+                            .error(R.drawable.ic_avatar_placeholder_error)
+                            .build(),
                         contentDescription = stringResource(R.string.contributor_avatar),
                         modifier = Modifier
                             .size(24.dp)
