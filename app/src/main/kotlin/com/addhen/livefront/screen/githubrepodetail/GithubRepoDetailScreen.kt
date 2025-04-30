@@ -132,8 +132,8 @@ fun GithuRepoDetailContent(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(repo.owner.avatarUrl)
                     .crossfade(true)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .error(R.drawable.ic_launcher_foreground)
+                    .placeholder(R.drawable.ic_avatar_placeholder)
+                    .error(R.drawable.ic_avatar_placeholder_error)
                     .build(),
                 contentDescription = stringResource(R.string.avatar, repo.owner.login),
                 modifier = Modifier
@@ -249,8 +249,8 @@ fun ContributorItem(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(contributor.avatarUrl)
                 .crossfade(true)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
+                .placeholder(R.drawable.ic_avatar_placeholder)
+                .error(R.drawable.ic_avatar_placeholder_error)
                 .build(),
             contentDescription = stringResource(R.string.avatar, contributor.login),
             modifier = Modifier
