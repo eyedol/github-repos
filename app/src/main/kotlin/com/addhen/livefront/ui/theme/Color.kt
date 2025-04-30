@@ -15,3 +15,7 @@ val Pink40 = Color(0xFF7D5260)
 val primaryLight = Color(0xFF4CAF50)
 val errorLight = Color(0xFFBA1A1A)
 val starYellow = Color(0xFFE2B340)
+
+val vibrantRed = Color(0xFFE53935)
+val lighterRed = Color(0xFFFF5252)
+val darkerRed = Color(0xFFD81B60)

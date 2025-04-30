@@ -3,6 +3,8 @@
 
 package com.addhen.livefront.screen.githubrepodetail
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -50,7 +53,10 @@ import com.addhen.livefront.screen.githubrepodetail.GithubRepoDetailViewModel.Re
 import com.addhen.livefront.ui.component.AppScaffold
 import com.addhen.livefront.ui.component.ErrorInfo
 import com.addhen.livefront.ui.component.LoadingIndicator
+import com.addhen.livefront.ui.theme.darkerRed
+import com.addhen.livefront.ui.theme.lighterRed
 import com.addhen.livefront.ui.theme.starYellow
+import com.addhen.livefront.ui.theme.vibrantRed
 
 @Composable
 fun GithubRepoDetailScreen(
@@ -187,7 +193,10 @@ fun GithuRepoDetailContent(
                     contentPadding = PaddingValues(vertical = 8.dp),
                 ) {
                     items(repo.contributors.size) { index ->
-                        ContributorItem(repo.contributors[index])
+                        ContributorItem(
+                            contributor = repo.contributors[index],
+                            showAvatarBorder = index == 0
+                        )
                     }
                 }
             } else -> {
@@ -201,8 +210,28 @@ fun GithuRepoDetailContent(
 fun ContributorItem(
     contributor: Contributor,
     modifier: Modifier = Modifier,
+    showAvatarBorder: Boolean = false,
 ) {
     val uriHandler = LocalUriHandler.current
+    val borderModifier = if (showAvatarBorder) {
+        Modifier.border(
+            BorderStroke(
+                width = 5.dp,
+                brush = Brush.sweepGradient(
+                    colors = listOf(
+                        vibrantRed,
+                        lighterRed,
+                        darkerRed,
+                        vibrantRed
+                    )
+                )
+            ),
+            shape = CircleShape
+        )
+    } else {
+        Modifier
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -222,6 +251,7 @@ fun ContributorItem(
             contentDescription = stringResource(R.string.avatar, contributor.login),
             modifier = Modifier
                 .size(50.dp)
+                .then(borderModifier)
                 .clip(CircleShape),
             contentScale = ContentScale.Crop,
         )
