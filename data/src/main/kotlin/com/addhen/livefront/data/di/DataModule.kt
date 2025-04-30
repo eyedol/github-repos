@@ -3,6 +3,7 @@
 
 package com.addhen.livefront.data.di
 
+import com.addhen.livefront.data.BuildConfig
 import com.addhen.livefront.data.api.GithubApiService
 import com.addhen.livefront.data.cache.MemoryStorage
 import com.addhen.livefront.data.cache.StorageInterface
@@ -14,6 +15,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,16 +37,26 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(logging: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(logging).build()
+    fun provideOkHttpClient(
+        logging: HttpLoggingInterceptor,
+        authInterceptor: Interceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .addInterceptor(authInterceptor)
+            .build()
     }
 
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient, json: Json): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(
-            json.asConverterFactory("application/json; charset=UTF8".toMediaType()),
-        ).client(client).build()
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(
+                json.asConverterFactory("application/json; charset=UTF8".toMediaType())
+            )
+            .client(client)
+            .build()
     }
 
     @Provides
@@ -72,6 +84,23 @@ object DataModule {
         return Json {
             ignoreUnknownKeys = true
             isLenient = true
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val token = BuildConfig.GITHUB_API_KEY
+            val originalRequest = chain.request()
+            if (token.isBlank() || originalRequest.header("Authorization") != null) {
+                chain.proceed(originalRequest)
+            } else {
+                val newRequest = originalRequest.newBuilder()
+                    .header("Authorization", "Bearer $token")
+                    .build()
+                chain.proceed(newRequest)
+            }
         }
     }
 }
