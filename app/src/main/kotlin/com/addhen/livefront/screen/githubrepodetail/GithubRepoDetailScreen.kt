@@ -50,7 +50,7 @@ import com.addhen.livefront.R
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.model.GithubRepo.Contributor
 import com.addhen.livefront.formatStars
-import com.addhen.livefront.screen.githubrepodetail.GithubRepoDetailViewModel.RepoDetailUiState
+import com.addhen.livefront.screen.githubrepodetail.GithubRepoDetailViewModel.GithubRepoDetailUiState
 import com.addhen.livefront.ui.component.AppScaffold
 import com.addhen.livefront.ui.component.ErrorInfo
 import com.addhen.livefront.ui.component.LoadingIndicator
@@ -86,7 +86,7 @@ fun GithubRepoDetailScreen(
 @Composable
 private fun GithuRepoDetailContent(
     githubRepo: GithubRepo?,
-    uiState: RepoDetailUiState,
+    uiState: GithubRepoDetailUiState,
     modifier: Modifier = Modifier,
 ) {
     Column(

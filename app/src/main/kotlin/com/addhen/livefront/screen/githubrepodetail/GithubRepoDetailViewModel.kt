@@ -30,8 +30,8 @@ class GithubRepoDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val route = savedStateHandle.toRoute<GithubRepoDetailRoute>()
-    private val _uiState = MutableStateFlow(RepoDetailUiState())
-    val uiState: StateFlow<RepoDetailUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(GithubRepoDetailUiState())
+    val uiState: StateFlow<GithubRepoDetailUiState> = _uiState.asStateFlow()
 
     val githubRepo: StateFlow<GithubRepo?> = repository.getRepoDetails(route.id)
         .onStart { _uiState.update { it.copy(isLoadingRepo = true, error = null) } }
@@ -50,7 +50,7 @@ class GithubRepoDetailViewModel @Inject constructor(
         )
 
     @Stable
-    data class RepoDetailUiState(
+    data class GithubRepoDetailUiState(
         val isLoadingRepo: Boolean = true,
         val error: String? = null,
     )
