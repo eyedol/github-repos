@@ -16,7 +16,7 @@
     <string name="loading_indicator_content_description">Loading indicator</string>
     <string name="no_description_available">No description available.</string>
     <string name="view_on_github">View on GitHub</string>
-    <string name="top_contributors">Top Contributors</string>
+    <string name="top_contributors">Top 10 Contributors</string>
     <string name="no_contributors_found">No contributors found.</string>
     <string name="avatar">%1$s avatar</string>
     <string name="about_dialog_title">About</string>
