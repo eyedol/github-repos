@@ -97,7 +97,10 @@ private fun GithuRepoDetailContent(
     ) {
         when {
             uiState.isLoadingRepo -> LoadingIndicator()
-            uiState.error != null -> ErrorInfo(message = uiState.error) {}
+            uiState.error != null -> ErrorInfo(message = uiState.error) {
+                // No retry logic here as it's expected that the repo should exists in-memory
+                // and it should never error in the first place.
+            }
             githubRepo != null -> {
                 GithuRepoDetailContent(
                     modifier = modifier,
