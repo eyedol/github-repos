@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.fakes
 
 import androidx.paging.Pager
@@ -9,7 +12,7 @@ import com.addhen.livefront.data.respository.GithubRepoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeGithubRepoRepository: GithubRepoRepository {
+class FakeGithubRepoRepository : GithubRepoRepository {
     private val queryResultsMap = mutableMapOf<String, List<GithubRepo>>()
     val results = mutableListOf<GithubRepo>()
     var shouldTriggerError = false
@@ -27,7 +30,7 @@ class FakeGithubRepoRepository: GithubRepoRepository {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
-            )
+            ),
         ) {
             results.asPagingSourceFactory().invoke()
         }.flow

@@ -195,7 +195,7 @@ fun GithuRepoDetailContent(
                     items(repo.contributors.size) { index ->
                         ContributorItem(
                             contributor = repo.contributors[index],
-                            showAvatarBorder = index == 0
+                            showAvatarBorder = index == 0,
                         )
                     }
                 }
@@ -222,11 +222,11 @@ fun ContributorItem(
                         vibrantRed,
                         lighterRed,
                         darkerRed,
-                        vibrantRed
-                    )
-                )
+                        vibrantRed,
+                    ),
+                ),
             ),
-            shape = CircleShape
+            shape = CircleShape,
         )
     } else {
         Modifier

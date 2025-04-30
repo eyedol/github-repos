@@ -1,9 +1,12 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.fakes
 
 import com.addhen.livefront.data.model.GithubRepo
 
 internal fun GithubRepo.Companion.fakes(
-    id: Long = 1
+    id: Long = 1,
 ): GithubRepo {
     return GithubRepo(
         id = id,
@@ -22,7 +25,7 @@ internal fun GithubRepo.Companion.fakes(
 }
 
 internal fun GithubRepo.Contributor.Companion.fakes(
-    id: Long = 1
+    id: Long = 1,
 ): GithubRepo.Contributor {
     return GithubRepo.Contributor(
         id = id,

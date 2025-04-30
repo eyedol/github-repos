@@ -39,7 +39,7 @@ object DataModule {
     @Singleton
     fun provideOkHttpClient(
         logging: HttpLoggingInterceptor,
-        authInterceptor: Interceptor
+        authInterceptor: Interceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(logging)
@@ -53,7 +53,7 @@ object DataModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(
-                json.asConverterFactory("application/json; charset=UTF8".toMediaType())
+                json.asConverterFactory("application/json; charset=UTF8".toMediaType()),
             )
             .client(client)
             .build()

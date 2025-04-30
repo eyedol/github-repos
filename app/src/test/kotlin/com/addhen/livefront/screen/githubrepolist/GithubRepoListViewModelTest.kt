@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.screen.githubrepolist
 
 import androidx.paging.testing.asSnapshot
@@ -47,7 +50,7 @@ class GithubRepoListViewModelTest {
         fakeRepository.shouldTriggerError = true
         viewModel = GithubRepoListViewModel(repository = fakeRepository)
 
-        val runTestBlock: ()-> Unit = {
+        val runTestBlock: () -> Unit = {
             runTest { viewModel.searchResults.asSnapshot { refresh() } }
         }
 

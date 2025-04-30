@@ -49,7 +49,7 @@ class GithubRepoPagingSourceTest {
         fakeApiService.start()
 
         memoryStorage = MemoryStorage<GithubRepo>(coroutineTestRule.dispatcher)
-        pagingSource = GithubRepoPagingSource(fakeApiService,memoryStorage, testQuery)
+        pagingSource = GithubRepoPagingSource(fakeApiService, memoryStorage, testQuery)
     }
 
     @AfterEach

@@ -1,6 +1,7 @@
 // Copyright 2025, Livefront sample app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
+
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -19,7 +20,10 @@ android.buildFeatures {
 val githubApiKey: String? = getLocalProperty("GITHUB_API_KEY", project)
 
 android.defaultConfig {
-    buildConfigField("String", "GITHUB_API_KEY", "\"$githubApiKey\""
+    buildConfigField(
+        "String",
+        "GITHUB_API_KEY",
+        "\"$githubApiKey\"",
     )
 }
 
