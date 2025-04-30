@@ -1,7 +1,7 @@
 // Copyright 2025, Livefront sample app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.livefront.ui.component
+package com.addhen.livefront.screen.githubrepolist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
