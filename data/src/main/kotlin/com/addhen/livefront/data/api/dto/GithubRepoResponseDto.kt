@@ -11,9 +11,3 @@ data class GithubRepoResponseDto(
 ) {
     companion object
 }
-
-fun GithubRepoResponseDto.Companion.fakes(): GithubRepoResponseDto {
-    return GithubRepoResponseDto(
-        items = (1..10).map { GithubRepoDto.fakes(it.toLong()) },
-    )
-}

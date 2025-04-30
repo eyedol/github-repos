@@ -8,8 +8,8 @@ import app.cash.turbine.test
 import com.addhen.livefront.data.api.FakeGithubApiService
 import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
-import com.addhen.livefront.data.api.dto.fakes
 import com.addhen.livefront.data.cache.MemoryStorage
+import com.addhen.livefront.data.fakes.fakes
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.testing.CoroutineTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi

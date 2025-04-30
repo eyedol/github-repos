@@ -5,8 +5,8 @@ package com.addhen.livefront.data.api
 
 import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
-import com.addhen.livefront.data.api.dto.fakes
 import com.addhen.livefront.data.di.DataModule
+import com.addhen.livefront.data.fakes.fakes
 import com.addhen.livefront.testing.CoroutineTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
