@@ -16,6 +16,16 @@ import com.addhen.livefront.data.model.GithubRepo.Owner
 import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 
+/**
+ * A `PagingSource` implementation for loading paginated GitHub repositories
+ * based on a specific search query. This class fetches data from the provided
+ * GitHub API service and stores it using the given storage interface.
+ *
+ *
+ * @param apiService The API service for fetching GitHub repositories and related data.
+ * @param storage The storage interface for saving fetched repositories.
+ * @param query The search query string used to retrieve the repositories.
+ */
 class GithubRepoPagingSource(
     private val apiService: GithubApiService,
     private val storage: StorageInterface<GithubRepo>,
