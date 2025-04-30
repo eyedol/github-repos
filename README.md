@@ -98,4 +98,5 @@ The application follows the Model-View-ViewModel (MVVM) architectural pattern:
 * **Error Handling:** More granular error handling and user feedback (e.g., specific messages for network vs. API errors).
 * **Offline Caching:** Implement caching using Room to show data when offline.
 * **Testing:** Add UI tests for Composable screens.
-* **UI Enhancements:** Improve UI/UX, add more animations.
+* **UI Enhancements:** Improve UI/UX add more animations.
+* **App Icon:** Design a good looking app icon.
