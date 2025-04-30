@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Github Repos</string>
+    <string name="app_name">GitHubRepos</string>
     <string name="app_description">A GitHub client that showcases public repositories ranked by their star count, along with detailed contributor information. Easily identify the top contributor for each project.</string>
     <string name="star_icon_content_description">Starred icon</string>
     <string name="error_occurred_while_loading">Error occurred while loading</string>
