@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -235,9 +236,9 @@ fun ContributorItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .width(80.dp) // Fixed width for items in LazyRow
+            .width(90.dp) // Fixed width for items in LazyRow
             .clickable { uriHandler.openUri(contributor.htmlUrl) }
-            .padding(vertical = 4.dp)
+            .padding(vertical = 2.dp)
             .then(modifier),
 
     ) {
@@ -260,13 +261,14 @@ fun ContributorItem(
             text = contributor.login,
             fontSize = 12.sp,
             maxLines = 1,
-            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+            overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = stringResource(R.string.commits, contributor.contributions),
             fontSize = 10.sp,
             color = Color.Gray,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
