@@ -1,36 +1,47 @@
 [versions]
+# These are in referenced convention plugins and build.gradle.kts files
 minSdk = "23"
 targetSdk = "35"
 compileSdk = "35"
 versionName = "1.0.0-alpha"
 jdk = "21"
 ktlint = "0.48.2"
+
+# Gradle
 agp = "8.9.2"
-kotlin = "2.1.10"
-hilt = "2.52"
 ksp = "2.1.10-1.0.30"
 jetbrainsKotlinJvm = "2.1.0"
-spotless = "7.0.3"
-cacheFix = "3.0.1"
-retrofit = "2.11.0"
-okhttp = "4.12.0"
+
+# Kotlin
+kotlin = "2.1.10"
 kotlinxCoroutines = "1.10.2"
-loggingInterceptor = "4.12.0"
 kotlinxSerializer = "1.8.0"
-timber = "5.0.1"
-desugaring = "2.1.5"
+
+# Android
 coreKtx = "1.16.0"
+desugaring = "2.1.5"
+hilt = "2.52"
+navigationCompose = "2.8.9"
+hiltNavigationCompose = "1.2.0"
+composeLintCheck = "1.4.2"
 composeBom = "2025.04.01"
 activityCompose = "1.10.1"
 lifecycleRuntimeKtx = "2.8.7"
 appcompat = "1.7.0"
 material = "1.12.0"
-coil = "2.6.0"
 paging = "3.3.6"
-navigationCompose = "2.8.9"
-hiltNavigationCompose = "1.2.0"
-composeLintCheck = "1.4.2"
 multidex = "2.0.1"
+
+# Third party
+spotless = "7.0.3"
+cacheFix = "3.0.1"
+retrofit = "2.11.0"
+okhttp = "4.12.0"
+loggingInterceptor = "4.12.0"
+timber = "5.0.1"
+coil = "2.6.0"
+
+# Test
 jupiterApi = "5.10.1"
 jupiterEngine = "5.10.1"
 turbine = "1.2.0"
@@ -40,6 +51,11 @@ mockwebserver = "4.12.0"
 pagingTestingAndroid = "3.3.6"
 
 [libraries]
+# Kotlin
+data-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializer" }
+
+# Android
+# These are used in AndroidComposeConventionPlugin
 presentation-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 presentation-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 presentation-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -54,23 +70,27 @@ presentation-androidx-compose-material-iconsExtended = { module = "androidx.comp
 presentation-androidx-compose-materialWindow = { module = "androidx.compose.material3:material3-window-size-class" }
 presentation-androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 presentation-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+presentation-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 presentation-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 presentation-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 presentation-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 presentation-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
-presentation-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 presentation-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+tooling-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
+tooling-compose-lint-check = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeLintCheck" }
+di-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+di-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
+
+# Third party
 data-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 data-retrofit-converter-kotlinx-serialization = { group =  "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
-data-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializer" }
 data-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 logging-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-tooling-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
-tooling-compose-lint-check = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "composeLintCheck" }
 tooling-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
-di-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-di-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+# Test
 test-di-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 test-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 test-okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
@@ -81,7 +101,8 @@ test-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engin
 test-junit5-android-test-runner = { group = "de.mannodermaus.junit5", name = "android-test-runner", version.ref = "androidJunit5" }
 test-junit5-android-test-core = { group = "de.mannodermaus.junit5", name = "android-test-core", version.ref = "androidJunit5" }
 test-paging-testing-android = { group = "androidx.paging", name = "paging-testing-android", version.ref = "pagingTestingAndroid" }
-multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
+
+# Gradle
 # Build logic dependencies
 build-logic-android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 build-logic-kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -91,14 +112,21 @@ build-logic-kspGradlePlugin = { module = "com.google.devtools.ksp:com.google.dev
 build-logic-kotlinxSerializationGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 build-logic-hiltGradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
+# Kotlin
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Android
+android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+
+# Third party
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 cache-fix = { id = "org.gradle.android.cache-fix", version.ref = "cacheFix" }
+
+# Test
 android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5Plugin" }
 
 
