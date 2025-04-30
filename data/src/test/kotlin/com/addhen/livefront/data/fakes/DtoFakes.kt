@@ -6,7 +6,6 @@ import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
 internal fun GithubRepoDto.Companion.fakes(id: Long = 1): GithubRepoDto {
     return GithubRepoDto(
         id = id,
-        name = "Fake repo $id",
         description = "Fake repo description $id",
         full_name = "Fake repo/full name $id",
         html_url = "Fake repo url $id",

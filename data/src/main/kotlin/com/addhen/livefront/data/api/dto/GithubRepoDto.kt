@@ -8,7 +8,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GithubRepoDto(
     val id: Long,
-    val name: String,
     val description: String? = null,
     val full_name: String,
     val stargazers_count: Int,

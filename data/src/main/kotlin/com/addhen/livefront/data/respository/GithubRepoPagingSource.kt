@@ -80,7 +80,6 @@ class GithubRepoPagingSource(
 internal fun GithubRepoDto.toGithubRepo(): GithubRepo {
     return GithubRepo(
         id = id,
-        name = name,
         fullName = full_name,
         description = description,
         stargazersCount = stargazers_count,

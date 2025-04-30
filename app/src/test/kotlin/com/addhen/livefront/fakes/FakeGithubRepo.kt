@@ -10,7 +10,6 @@ internal fun GithubRepo.Companion.fakes(
 ): GithubRepo {
     return GithubRepo(
         id = id,
-        name = "Fake repo $id",
         description = "Fake repo description $id",
         fullName = "Fake repo/full name $id",
         htmlUrl = "Fake repo url $id",

@@ -303,8 +303,7 @@ class GithubRepoPagingSourceTest {
                             avatar_url = "Fake owner avatar url",
                         ),
                         contributor = if (contributorFailed) null else contributor,
-                        html_url = "Fake repo url",
-                        name = "Fake repo",
+                        html_url = "Fake repo url"
                     )
 
                     val fakeRepoResponse = GithubRepoResponseDto(

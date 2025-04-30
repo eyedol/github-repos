@@ -171,7 +171,6 @@ class GithubRepoDataRepositoryTest {
                 ),
                 contributor = if (contributorFailed) null else contributor,
                 html_url = "Fake repo url",
-                name = "Fake repo",
             )
 
             return GithubRepoResponseDto(

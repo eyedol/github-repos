@@ -5,7 +5,6 @@ package com.addhen.livefront.data.model
 
 data class GithubRepo(
     val id: Long,
-    val name: String,
     val fullName: String,
     val description: String? = null,
     val stargazersCount: Int,
