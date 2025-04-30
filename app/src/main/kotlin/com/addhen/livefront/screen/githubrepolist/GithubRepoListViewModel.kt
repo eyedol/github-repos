@@ -11,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
@@ -24,7 +23,6 @@ class GithubRepoListViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val searchResults = searchQuery
-        .debounce(300L)
         .filterNot { it.isEmpty() }
         .flatMapLatest { query -> repository.searchRepos(query) }
         .cachedIn(viewModelScope)
