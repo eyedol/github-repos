@@ -284,27 +284,7 @@ class GithubRepoPagingSourceTest {
                         return MockResponse().setResponseCode(HttpURLConnection.HTTP_INTERNAL_ERROR)
                     }
 
-                    val contributor = GithubRepoDto.ContributorDto(
-                        id = 1,
-                        login = "fakeOwner1",
-                        contributions = 2,
-                        avatar_url = "Fake contributor avatar url",
-                        html_url = "Fake contributor url",
-                    )
-
-                    val githubRepo = GithubRepoDto(
-                        id = 1,
-                        description = "Fake repo description",
-                        full_name = "Fake repo/full name",
-                        stargazers_count = 1,
-                        owner = GithubRepoDto.OwnerDto(
-                            id = 1,
-                            login = "fakeOwner1",
-                            avatar_url = "Fake owner avatar url",
-                        ),
-                        contributor = if (contributorFailed) null else contributor,
-                        html_url = "Fake repo url"
-                    )
+                    val githubRepo = GithubRepoDto.fakes(id = 1, nullContributor = contributorFailed)
 
                     val fakeRepoResponse = GithubRepoResponseDto(
                         items = (1..3).map { githubRepo.copy(id = it.toLong()) },
