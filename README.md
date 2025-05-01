@@ -8,7 +8,7 @@ A GitHub client that showcases public repositories ranked by their star count, a
 - [Sample Demo](#sample-demo)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Architecture (MVVM)](#architecture)
+- [Architecture (MVVM)](#architecture-mvvm)
 - [Setup And Installation](#setup-and-installation)
 - [Potential Improvements](#potential-improvements)
 
@@ -81,7 +81,6 @@ The application follows the Model-View-ViewModel (MVVM) architectural pattern:
 1.  **Clone the repository:**
     ```bash
     git clone [https://github.com/eyedol/github-repos.git](https://github.com/eyedol/github-repos.git)
-    cd github-repos
     ```
 2.  **Open in Android Studio:** Open the cloned project directory in Android Studio.
 3.  **Sync Gradle:** Let Android Studio sync the project and download dependencies.
