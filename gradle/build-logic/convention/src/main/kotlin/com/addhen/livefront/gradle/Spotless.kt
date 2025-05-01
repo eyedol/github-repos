@@ -35,7 +35,7 @@ fun Project.configureSpotless() {
         }
 
         kotlinGradle {
-            target("*.kts")
+            target("**/*.kts")
             ktlint(ktlintVersion)
             trimTrailingWhitespace()
             leadingTabsToSpaces()
