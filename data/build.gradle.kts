@@ -17,7 +17,7 @@ android.buildFeatures {
     buildConfig = true
 }
 
-val githubApiKey: String? = getLocalProperty("GITHUB_API_KEY", project)
+val githubApiKey: String = getLocalProperty("GITHUB_API_KEY", project) ?: ""
 
 android.defaultConfig {
     buildConfigField(
