@@ -79,5 +79,10 @@ gradlePlugin {
       id = "com.addhen.livefront.junit5"
       implementationClass = "com.addhen.livefront.gradle.plugins.Junit5ConventionPlugin"
     }
+
+    register("androidTest") {
+      id = "com.addhen.livefront.android.test"
+      implementationClass = "com.addhen.livefront.gradle.plugins.AndroidTestConventionPlugin"
+    }
   }
 }

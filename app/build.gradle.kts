@@ -9,6 +9,7 @@ plugins {
     id("com.addhen.livefront.hilt.android")
     id("com.addhen.livefront.serialization")
     id("com.addhen.livefront.junit5")
+    id("com.addhen.livefront.android.test")
 }
 
 android {
@@ -16,7 +17,6 @@ android {
 
     defaultConfig {
         applicationId = "com.addhen.livefront"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -46,5 +46,6 @@ dependencies {
 
     testImplementation(projects.testing)
     testImplementation(libs.test.paging.testing.android)
+    androidTestImplementation(projects.testing)
     ksp(libs.di.hilt.compiler)
 }

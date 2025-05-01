@@ -271,7 +271,7 @@ fun ContributorItem(
             fontSize = 10.sp,
             color = Color.Gray,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
