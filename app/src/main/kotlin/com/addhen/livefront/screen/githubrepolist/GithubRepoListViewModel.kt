@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GithubRepoListViewModel @Inject constructor(
-    private val repository: GithubRepoRepository,
+    private val githubRepository: GithubRepoRepository,
     connectivityRepository: ConnectivityRepository
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("stars:>0")
@@ -37,6 +37,6 @@ class GithubRepoListViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val searchResults: Flow<PagingData<GithubRepo>> = searchQuery
         .filterNot { it.isEmpty() }
-        .flatMapLatest { query -> repository.searchRepos(query) }
+        .flatMapLatest { query -> githubRepository.searchRepos(query) }
         .cachedIn(viewModelScope)
 }
