@@ -27,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.addhen.livefront.ConnectionState
 import com.addhen.livefront.R
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.formatStars
@@ -63,6 +65,7 @@ fun GithubRepoListScreen(
     onRepoClick: (repoId: Long) -> Unit,
 ) {
     val pagingItems = viewModel.searchResults.collectAsLazyPagingItems()
+    val connectivityState by viewModel.connectivityState.collectAsState()
 
     var showAboutDialog by remember { mutableStateOf(false) }
 
@@ -77,6 +80,7 @@ fun GithubRepoListScreen(
     ) {
         GithubRepoContent(
             pagingItems = pagingItems,
+            connectivityState = connectivityState,
             onRepoClick = onRepoClick,
             modifier = Modifier.fillMaxSize(),
         )
@@ -94,6 +98,7 @@ fun GithubRepoListScreen(
 @Composable
 private fun GithubRepoContent(
     pagingItems: LazyPagingItems<GithubRepo>,
+    connectivityState: ConnectionState,
     onRepoClick: (repoId: Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -102,7 +107,7 @@ private fun GithubRepoContent(
             .fillMaxSize()
             .padding(16.dp),
     ) {
-        ConnectivityStatus()
+        ConnectivityStatus(connectivityState)
 
         LazyColumn {
             items(

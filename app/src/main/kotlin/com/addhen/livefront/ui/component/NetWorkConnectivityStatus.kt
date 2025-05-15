@@ -46,9 +46,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 @ExperimentalAnimationApi
 @ExperimentalCoroutinesApi
 @Composable
-fun ConnectivityStatus() {
-    val connection by connectivityState()
-    val isConnected = connection === ConnectionState.Available
+fun ConnectivityStatus(connectionState: ConnectionState) {
+    val isConnected = connectionState === ConnectionState.Available
 
     var visibility by remember { mutableStateOf(false) }
 
@@ -100,14 +99,5 @@ private fun ConnectivityStatusBox(isConnected: Boolean) {
             Spacer(modifier = Modifier.size(8.dp))
             Text(message, color = Color.White, fontSize = 15.sp)
         }
-    }
-}
-
-@ExperimentalCoroutinesApi
-@Composable
-fun connectivityState(): State<ConnectionState> {
-    val context = LocalContext.current
-    return produceState(initialValue = context.currentConnectivityState) {
-        context.observeConnectivityAsFlow().distinctUntilChanged().collect { value = it }
     }
 }
