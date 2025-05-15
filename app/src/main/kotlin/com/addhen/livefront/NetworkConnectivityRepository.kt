@@ -8,7 +8,11 @@ import javax.inject.Inject
 
 class NetworkConnectivityRepository @Inject constructor(
     @ApplicationContext private val context: Context
-) {
+): ConnectivityRepository {
     @OptIn(ExperimentalCoroutinesApi::class)
-    val connectivity: Flow<ConnectionState> = context.observeConnectivityAsFlow()
+    override val connectivity: Flow<ConnectionState> = context.observeConnectivityAsFlow()
+}
+
+interface ConnectivityRepository {
+    val connectivity: Flow<ConnectionState>
 }

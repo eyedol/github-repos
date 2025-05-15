@@ -9,8 +9,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.respository.GithubRepoRepository
-import com.addhen.livefront.NetworkConnectivityRepository
 import com.addhen.livefront.ConnectionState
+import com.addhen.livefront.ConnectivityRepository
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.SharingStarted
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,11 +26,11 @@ import javax.inject.Inject
 @HiltViewModel
 class GithubRepoListViewModel @Inject constructor(
     private val repository: GithubRepoRepository,
-    networkConnectivityRepository: NetworkConnectivityRepository
+    connectivityRepository: ConnectivityRepository
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("stars:>0")
 
-    val connectivityState = networkConnectivityRepository.connectivity
+    val connectivityState = connectivityRepository.connectivity
         .distinctUntilChanged()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ConnectionState.Available)
 
