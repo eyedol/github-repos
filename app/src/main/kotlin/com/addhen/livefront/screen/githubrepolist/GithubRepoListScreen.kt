@@ -6,6 +6,7 @@ package com.addhen.livefront.screen.githubrepolist
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -46,8 +47,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.addhen.livefront.connectivity.ConnectionState
 import com.addhen.livefront.R
+import com.addhen.livefront.connectivity.ConnectionState
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.extension.formatStars
 import com.addhen.livefront.ui.component.AppScaffold
@@ -163,96 +164,103 @@ fun RepositoryItem(
     modifier: Modifier = Modifier,
     onRepoClick: () -> Unit,
 ) {
+    val cardShape = MaterialTheme.shapes.medium
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .clickable { onRepoClick() },
+            .padding(vertical = 8.dp),
+        shape = cardShape,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
+                .clip(cardShape)
+                .clickable { onRepoClick() }
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(repo.owner.avatarUrl)
-                        .crossfade(true)
-                        .placeholder(R.drawable.ic_avatar_placeholder)
-                        .error(R.drawable.ic_avatar_placeholder_error)
-                        .build(),
-                    contentDescription = stringResource(R.string.owner_avatar_image_content_description),
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(CircleShape),
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = repo.fullName,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-            repo.description?.let { description ->
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Default.Star,
-                        contentDescription = stringResource(R.string.star_icon_content_description),
-                        tint = starYellow,
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = repo.stargazersCount.formatStars())
-                }
-            }
-
-            repo.contributor?.let { contributor ->
-                Spacer(modifier = Modifier.height(16.dp))
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(contributor.avatarUrl)
+                            .data(repo.owner.avatarUrl)
                             .crossfade(true)
                             .placeholder(R.drawable.ic_avatar_placeholder)
                             .error(R.drawable.ic_avatar_placeholder_error)
                             .build(),
-                        contentDescription = stringResource(R.string.contributor_avatar),
+                        contentDescription = stringResource(R.string.owner_avatar_image_content_description),
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(32.dp)
                             .clip(CircleShape),
-                        contentScale = ContentScale.Crop,
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = stringResource(R.string.top_contributor, contributor.login),
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = repo.fullName,
+                        style = MaterialTheme.typography.titleLarge,
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                }
+                repo.description?.let { description ->
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = stringResource(R.string.commits, contributor.contributions),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        text = description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
                     )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.Star,
+                            contentDescription = stringResource(R.string.star_icon_content_description),
+                            tint = starYellow,
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = repo.stargazersCount.formatStars())
+                    }
+                }
+
+                repo.contributor?.let { contributor ->
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(contributor.avatarUrl)
+                                .crossfade(true)
+                                .placeholder(R.drawable.ic_avatar_placeholder)
+                                .error(R.drawable.ic_avatar_placeholder_error)
+                                .build(),
+                            contentDescription = stringResource(R.string.contributor_avatar),
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop,
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = stringResource(R.string.top_contributor, contributor.login),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = stringResource(R.string.commits, contributor.contributions),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        )
+                    }
                 }
             }
         }
