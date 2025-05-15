@@ -14,6 +14,7 @@ import com.addhen.livefront.testing.CoroutineTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -46,12 +47,16 @@ class GithubRepoListViewModelTest {
     @Test
     @DisplayName("When searchQuery changes, searchResults should update")
     fun `searchResults should update when searchQuery changes`() = runTest {
-        fakeRepository.setReposForQuery("stars:>0", (1..5).map { GithubRepo.fakes(it.toLong()) })
-        val expected = fakeRepository.results
+        val expected = (1..5).map { GithubRepo.fakes(it.toLong()) }
+
         viewModel = GithubRepoListViewModel(
             githubRepository = fakeRepository,
             connectivityRepository = fakeNetworkConnectivity
         )
+
+        fakeRepository.emitSearchResults(expected)
+
+        advanceUntilIdle()
 
         val actual = viewModel.searchResults.asSnapshot()
         assertEquals(expected, actual)
@@ -59,18 +64,22 @@ class GithubRepoListViewModelTest {
 
     @Test
     @DisplayName("When searchResults errors, searchResults should error")
-    fun `searchResults should error when repository errors`() = runTest {
-        fakeRepository.shouldTriggerError = true
+    fun `searchResults should error when repository errors`() {
+        fakeRepository.emitSearchResultsError(Throwable("Fake error"))
         viewModel = GithubRepoListViewModel(
             githubRepository = fakeRepository,
             connectivityRepository = fakeNetworkConnectivity
         )
 
         val runTestBlock: () -> Unit = {
-            runTest { viewModel.searchResults.asSnapshot { refresh() } }
+            runTest {
+               val actual = viewModel.searchResults.asSnapshot { refresh() }
+                assertEquals(0, actual.size)
+            }
         }
 
-        assertThrows<Exception>(Exception::class.java, runTestBlock)
+        val error = assertThrows< Throwable>(Throwable::class.java, runTestBlock)
+        assertEquals("Fake error", error.message)
     }
 
     @Nested

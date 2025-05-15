@@ -33,6 +33,7 @@ import org.junit.jupiter.api.extension.RegisterExtension
 class GithubRepoDetailViewModelTest {
     private val route = GithubRepoDetailRoute(1234L)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @JvmField
     @RegisterExtension
     val coroutineTestRule = CoroutineTestRule()
@@ -46,7 +47,7 @@ class GithubRepoDetailViewModelTest {
     private lateinit var viewModel: GithubRepoDetailViewModel
 
     @BeforeEach
-    fun setup() {
+    fun setup() = runTest {
         fakeSavedStateHandle = savedStateHandleRule.savedStateHandleMock
         fakeRepository = FakeGithubRepoRepository()
     }
@@ -82,8 +83,6 @@ class GithubRepoDetailViewModelTest {
     fun uiStateEmitsErrorMessageWhenRepositoryThrowsException() = runTest {
         val expectedRepo = GithubRepo.fakes(1234)
         every { fakeSavedStateHandle.get<Any>(any()) } returns expectedRepo.encodeToString()
-        fakeRepository.setRepoDetails(1234, expectedRepo)
-        fakeRepository.shouldTriggerError = true
         viewModel = GithubRepoDetailViewModel(
             repository = fakeRepository,
             savedStateHandle = fakeSavedStateHandle,
