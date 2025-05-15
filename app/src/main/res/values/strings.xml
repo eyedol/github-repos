@@ -23,4 +23,5 @@
     <string name="close">Close</string>
     <string name="version">Version %1$s</string>
     <string name="app_logo_content_description">App Logo</string>
+    <string name="empty_content">Empty content</string>
 </resources>
