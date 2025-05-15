@@ -1,7 +1,7 @@
 // Copyright 2025, Livefront sample app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.livefront
+package com.addhen.livefront.extension
 
 fun Int.formatStars(): String {
     return when {
