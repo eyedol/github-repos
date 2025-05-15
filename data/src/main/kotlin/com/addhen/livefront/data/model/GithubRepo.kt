@@ -42,7 +42,10 @@ data class GithubRepo(
  * Decodes a string representation of a [GithubRepo] into a [GithubRepo] object.
  * A helper extension function for use with [SavedStateHandle].
  *
+ *
+ * @throws SerializationException if the given value cannot be serialized to JSON.
  * @return The decoded [GithubRepo] object.
+ *
  */
 fun GithubRepo.encodeToString() = Json.encodeToString(this)
 
@@ -50,6 +53,8 @@ fun GithubRepo.encodeToString() = Json.encodeToString(this)
  * Decodes a string representation of a [GithubRepo] into a [GithubRepo] object.
  * A helper extension function for use with [SavedStateHandle].
  *
+ * @throws SerializationException - in case of any decoding-specific error
+ *         IllegalArgumentException - if the decoded input is not a valid instance of [GithubRepo]
  * @return The decoded [GithubRepo] object.
  */
 fun String.decodeToGithubRepo() = Json.decodeFromString<GithubRepo>(this)
