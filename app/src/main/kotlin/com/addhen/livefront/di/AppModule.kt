@@ -1,8 +1,8 @@
 package com.addhen.livefront.di
 
 import android.content.Context
-import com.addhen.livefront.ConnectivityRepository
-import com.addhen.livefront.NetworkConnectivityRepository
+import com.addhen.livefront.connectivity.ConnectivityRepository
+import com.addhen.livefront.connectivity.NetworkConnectivityRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -9,8 +9,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.respository.GithubRepoRepository
-import com.addhen.livefront.ConnectionState
-import com.addhen.livefront.ConnectivityRepository
+import com.addhen.livefront.connectivity.ConnectionState
+import com.addhen.livefront.connectivity.ConnectivityRepository
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.SharingStarted
 import dagger.hilt.android.lifecycle.HiltViewModel

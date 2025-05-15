@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.addhen.livefront.ConnectionState
+import com.addhen.livefront.connectivity.ConnectionState
 import com.addhen.livefront.R
 import com.addhen.livefront.ui.theme.errorLight
 import com.addhen.livefront.ui.theme.primaryLight

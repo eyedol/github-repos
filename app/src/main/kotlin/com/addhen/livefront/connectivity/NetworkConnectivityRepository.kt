@@ -1,4 +1,4 @@
-package com.addhen.livefront
+package com.addhen.livefront.connectivity
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
