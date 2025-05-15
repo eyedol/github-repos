@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun EmptyContent(
     modifier: Modifier = Modifier,
-    title: @Composable () -> Unit
+    title: @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -40,6 +43,6 @@ fun EmptyContent(
 private fun EmptyContentPreview() {
     EmptyContent(
         title = { Text("Empty") },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 }

@@ -15,8 +15,8 @@ import com.addhen.livefront.data.model.GithubRepo.Contributor
 import com.addhen.livefront.data.model.GithubRepo.Owner
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 
 /**

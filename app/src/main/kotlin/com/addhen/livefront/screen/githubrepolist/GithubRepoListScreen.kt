@@ -175,7 +175,7 @@ fun RepositoryItem(
         Box(
             modifier = Modifier
                 .clip(cardShape)
-                .clickable { onRepoClick() }
+                .clickable { onRepoClick() },
         ) {
             Column(
                 modifier = Modifier

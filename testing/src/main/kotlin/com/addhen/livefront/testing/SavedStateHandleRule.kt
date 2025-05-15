@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.testing
 
 import android.annotation.SuppressLint
@@ -33,7 +36,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
  */
 class SavedStateHandleRule(
     private val route: Any,
-): BeforeEachCallback, AfterEachCallback {
+) : BeforeEachCallback, AfterEachCallback {
 
     val savedStateHandleMock: SavedStateHandle = mockk(relaxed = true)
 

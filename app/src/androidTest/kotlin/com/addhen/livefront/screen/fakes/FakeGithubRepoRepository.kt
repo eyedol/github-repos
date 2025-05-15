@@ -30,6 +30,6 @@ class FakeGithubRepoRepository : GithubRepoRepository {
         if (shouldError) {
             return flow { throw Exception("Fake error") } // Simulate error
         }
-        return flow { emit(DataResult.Success(repoDetailsMap[id]))}
+        return flow { emit(DataResult.Success(repoDetailsMap[id])) }
     }
 }

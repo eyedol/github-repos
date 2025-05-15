@@ -8,9 +8,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.addhen.livefront.data.model.DataError
 import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
-import com.addhen.livefront.data.model.DataError
 import com.addhen.livefront.data.model.decodeToGithubRepo
 import com.addhen.livefront.data.model.encodeToString
 import com.addhen.livefront.data.respository.GithubRepoRepository

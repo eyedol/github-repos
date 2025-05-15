@@ -51,7 +51,7 @@ class GithubRepoListViewModelTest {
 
         viewModel = GithubRepoListViewModel(
             githubRepository = fakeRepository,
-            connectivityRepository = fakeNetworkConnectivity
+            connectivityRepository = fakeNetworkConnectivity,
         )
 
         fakeRepository.emitSearchResults(expected)
@@ -68,17 +68,17 @@ class GithubRepoListViewModelTest {
         fakeRepository.emitSearchResultsError(Throwable("Fake error"))
         viewModel = GithubRepoListViewModel(
             githubRepository = fakeRepository,
-            connectivityRepository = fakeNetworkConnectivity
+            connectivityRepository = fakeNetworkConnectivity,
         )
 
         val runTestBlock: () -> Unit = {
             runTest {
-               val actual = viewModel.searchResults.asSnapshot { refresh() }
+                val actual = viewModel.searchResults.asSnapshot { refresh() }
                 assertEquals(0, actual.size)
             }
         }
 
-        val error = assertThrows< Throwable>(Throwable::class.java, runTestBlock)
+        val error = assertThrows<Throwable>(Throwable::class.java, runTestBlock)
         assertEquals("Fake error", error.message)
     }
 
@@ -89,7 +89,7 @@ class GithubRepoListViewModelTest {
         fun `connectivityState emits changes from connectivityRepository`() = runTest {
             viewModel = GithubRepoListViewModel(
                 githubRepository = fakeRepository,
-                connectivityRepository = fakeNetworkConnectivity
+                connectivityRepository = fakeNetworkConnectivity,
             )
             viewModel.connectivityState.test {
                 connectivityStateFlow.value = ConnectionState.Unavailable

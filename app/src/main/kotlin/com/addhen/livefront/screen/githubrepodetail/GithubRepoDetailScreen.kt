@@ -92,8 +92,7 @@ private fun GithuRepoDetailContent(
             .padding(16.dp)
             .then(modifier),
     ) {
-        when(uiState) {
-
+        when (uiState) {
             is GithubRepoDetailUiState.Error -> {
                 ErrorInfo(message = uiState.message) {
                     // No retry logic here as it's expected that the repo should exists in-memory or
@@ -107,7 +106,7 @@ private fun GithuRepoDetailContent(
                 Timber.d("Retrying to load repo details")
                 GithuRepoDetailContent(
                     modifier = modifier,
-                    repo = uiState.repo
+                    repo = uiState.repo,
                 )
             }
 

@@ -8,9 +8,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.addhen.livefront.data.api.GithubApiService
 import com.addhen.livefront.data.cache.StorageInterface
+import com.addhen.livefront.data.model.DataError
 import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
-import com.addhen.livefront.data.model.DataError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

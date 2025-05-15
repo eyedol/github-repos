@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.screen.githubrepodetail
 
 import androidx.lifecycle.SavedStateHandle
@@ -73,7 +76,7 @@ class GithubRepoDetailViewModelTest {
 
             assertEquals(
                 GithubRepoDetailViewModel.GithubRepoDetailUiState.Success(expectedRepo),
-                awaitItem()
+                awaitItem(),
             )
         }
     }
@@ -87,7 +90,6 @@ class GithubRepoDetailViewModelTest {
             repository = fakeRepository,
             savedStateHandle = fakeSavedStateHandle,
         )
-
 
         viewModel.uiState.test {
             fakeRepository.emitRepoDetailsError(DataError.Unknown("Fake error"))

@@ -1,3 +1,6 @@
+// Copyright 2025, Livefront sample app project contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package com.addhen.livefront.data.model
 
 sealed interface DataResult<out T> {

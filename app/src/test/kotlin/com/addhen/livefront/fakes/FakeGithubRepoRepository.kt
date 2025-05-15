@@ -17,7 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-class FakeGithubRepoRepository: GithubRepoRepository {
+class FakeGithubRepoRepository : GithubRepoRepository {
     private val detailsFlow = MutableSharedFlow<DataResult<GithubRepo>>(replay = 1)
     private val searchQueryResults = mutableListOf<GithubRepo>()
     private var searchErrorToReturn: Throwable? = null
@@ -58,7 +58,7 @@ class FakeGithubRepoRepository: GithubRepoRepository {
                 } else {
                     searchQueryResults.asPagingSourceFactory().invoke()
                 }
-            }
+            },
         ).flow
     }
 
