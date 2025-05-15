@@ -55,17 +55,16 @@ class GithubRepoPagingSource(
                 response.items.map { repo ->
                     async {
                         val (owner, repoName) = repo.full_name.split("/")
-                        try {
-                            val contributors = apiService.getContributors(owner, repoName, 10)
-                            repo.toGithubRepo().copy(
-                                contributor = contributors.firstOrNull()?.toContributor(),
-                                contributors = contributors.toContributorList(),
-                            )
+                        val contributors = try {
+                            apiService.getContributors(owner, repoName, 10)
                         } catch (e: Exception) {
-                            // If we fail to fetch contributors, return repo without a contributor
                             Timber.e(e, "Failed to fetch contributors for repo: ${repo.full_name}")
-                            repo.toGithubRepo()
+                            emptyList()
                         }
+                        repo.toGithubRepo().copy(
+                            contributor = contributors.firstOrNull()?.toContributor(),
+                            contributors = contributors.toContributorList(),
+                        )
                     }
                 }.awaitAll()
             }
