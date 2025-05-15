@@ -46,6 +46,7 @@ dependencies {
 
     testImplementation(projects.testing)
     testImplementation(libs.test.paging.testing.android)
+    testImplementation(libs.test.mockk)
     androidTestImplementation(projects.testing)
     ksp(libs.di.hilt.compiler)
 }

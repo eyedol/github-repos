@@ -7,19 +7,36 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.testing.asPagingSourceFactory
+import com.addhen.livefront.data.model.DataError
 import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.respository.GithubRepoRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 
 class FakeGithubRepoRepository : GithubRepoRepository {
+    private val detailsFlow = MutableSharedFlow<DataResult<GithubRepo>>(replay = 1)
+
     private val queryResultsMap = mutableMapOf<String, List<GithubRepo>>()
     val results = mutableListOf<GithubRepo>()
     var shouldTriggerError = false
+    private val repoDetailsMap = mutableMapOf<Long, GithubRepo?>()
+
+    suspend fun emitRepoDetailsSuccess(repo: GithubRepo) {
+        detailsFlow.emit(DataResult.Success(repo))
+    }
+
+    suspend fun emitRepoDetailsError(error: DataError) {
+        detailsFlow.emit(DataResult.Error(error))
+    }
 
     fun setReposForQuery(query: String, repos: List<GithubRepo>) {
         queryResultsMap[query] = repos
+    }
+
+    fun setRepoDetails(id: Long, repo: GithubRepo?) {
+        repoDetailsMap[id] = repo
     }
 
     override fun searchRepos(query: String): Flow<PagingData<GithubRepo>> {
@@ -38,6 +55,6 @@ class FakeGithubRepoRepository : GithubRepoRepository {
     }
 
     override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo?>> {
-        TODO("Not yet implemented as it's not supported in this test case")
+        return detailsFlow
     }
 }
