@@ -95,9 +95,8 @@ private fun GithuRepoDetailContent(
         when (uiState) {
             is GithubRepoDetailUiState.Error -> {
                 ErrorInfo(message = uiState.message) {
-                    // No retry logic here as it's expected that the repo should exists in-memory or
-                    // will return a null value if it doesn't exist and it should never error in
-                    // the first place.
+                    // TODO implement retry as there could be an error due to de/serialization of
+                    // the stored [GithubRepo] object in [SavedStateHandle]
                     Timber.d("Retrying to load repo details")
                 }
             }

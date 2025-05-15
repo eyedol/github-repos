@@ -61,6 +61,7 @@ class GithubRepoDetailViewModel @Inject constructor(
             }
         }
         .catch { e ->
+            // There can be an error from de/serialization of the [GithubRepo] object
             Timber.e(e)
             emit(GithubRepoDetailUiState.Error(e.message ?: "Unknown error"))
         }
