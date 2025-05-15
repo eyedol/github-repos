@@ -7,6 +7,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.testing.asPagingSourceFactory
+import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.respository.GithubRepoRepository
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +37,7 @@ class FakeGithubRepoRepository : GithubRepoRepository {
         }.flow
     }
 
-    override fun getRepoDetails(id: Long): Flow<GithubRepo?> {
+    override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo?>> {
         TODO("Not yet implemented as it's not supported in this test case")
     }
 }

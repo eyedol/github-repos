@@ -60,12 +60,12 @@ class GithubRepoDetailViewModelTest {
 
         viewModel.uiState.test {
             assertEquals(
-                GithubRepoDetailViewModel.GithubRepoDetailUiState(isLoadingRepo = true),
+                GithubRepoDetailViewModel.GithubRepoDetailUiState.Loading,
                 awaitItem(),
             )
         }
 
-        viewModel.githubRepo.test {
+        viewModel.uiState.test {
             assertEquals(expectedRepo, awaitItem())
         }
     }
@@ -81,15 +81,14 @@ class GithubRepoDetailViewModelTest {
             savedStateHandle = fakeSavedStateHandle,
         )
 
-        viewModel.githubRepo.test {
+        viewModel.uiState.test {
             assertNull(awaitItem())
         }
 
         viewModel.uiState.test {
             assertEquals(
-                GithubRepoDetailViewModel.GithubRepoDetailUiState(
-                    isLoadingRepo = false,
-                    error = "Failed to load repo details: Fake error",
+                GithubRepoDetailViewModel.GithubRepoDetailUiState.Error(
+                    "Failed to load repo details: Fake error",
                 ),
                 awaitItem(),
             )

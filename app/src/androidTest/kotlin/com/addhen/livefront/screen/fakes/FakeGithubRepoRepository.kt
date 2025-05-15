@@ -4,6 +4,7 @@
 package com.addhen.livefront.screen.fakes
 
 import androidx.paging.PagingData
+import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.respository.GithubRepoRepository
 import kotlinx.coroutines.flow.Flow
@@ -25,10 +26,10 @@ class FakeGithubRepoRepository : GithubRepoRepository {
         TODO("Not yet implemented as we don't need to test this")
     }
 
-    override fun getRepoDetails(id: Long): Flow<GithubRepo?> {
+    override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo?>> {
         if (shouldError) {
-            return flow { throw Exception("Fake error") } // Simulate error
+            return flow<DataResult<GithubRepo?>> { throw Exception("Fake error") } // Simulate error
         }
-        return flow { emit(repoDetailsMap[id]) }
+        return flow { emit(DataResult.Success<GithubRepo>(repoDetailsMap[id] as GithubRepo)) }
     }
 }
