@@ -3,6 +3,10 @@
 
 package com.addhen.livefront.data.model
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
+@Serializable
 data class GithubRepo(
     val id: Long,
     val fullName: String,
@@ -13,12 +17,14 @@ data class GithubRepo(
     val contributor: Contributor? = null,
     val contributors: List<Contributor> = emptyList(),
 ) {
+    @Serializable
     data class Owner(
         val login: String,
         val id: Long,
         val avatarUrl: String,
     )
 
+    @Serializable
     data class Contributor(
         val id: Long?,
         val login: String,
@@ -31,3 +37,19 @@ data class GithubRepo(
 
     companion object
 }
+
+/**
+ * Decodes a string representation of a [GithubRepo] into a [GithubRepo] object.
+ * A helper extension function for use with [SavedStateHandle].
+ *
+ * @return The decoded [GithubRepo] object.
+ */
+fun GithubRepo.encodeToString() = Json.encodeToString(this)
+
+/**
+ * Decodes a string representation of a [GithubRepo] into a [GithubRepo] object.
+ * A helper extension function for use with [SavedStateHandle].
+ *
+ * @return The decoded [GithubRepo] object.
+ */
+fun String.decodeToGithubRepo() = Json.decodeFromString<GithubRepo>(this)

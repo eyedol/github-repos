@@ -29,6 +29,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,6 +59,7 @@ import com.addhen.livefront.ui.theme.darkerRed
 import com.addhen.livefront.ui.theme.lighterRed
 import com.addhen.livefront.ui.theme.starYellow
 import com.addhen.livefront.ui.theme.vibrantRed
+import timber.log.Timber
 
 @Composable
 fun GithubRepoDetailScreen(
@@ -96,12 +98,17 @@ private fun GithuRepoDetailContent(
             .then(modifier),
     ) {
         when {
-            uiState.isLoadingRepo -> LoadingIndicator()
+            uiState.isLoadingRepo ->{
+                Timber.d("Retrying to load repo details")
+                LoadingIndicator()
+            }
             uiState.error != null -> ErrorInfo(message = uiState.error) {
                 // No retry logic here as it's expected that the repo should exists in-memory
                 // and it should never error in the first place.
+                Timber.d("Retrying to load repo details")
             }
             githubRepo != null -> {
+                Timber.d("Retrying to load repo details")
                 GithuRepoDetailContent(
                     modifier = modifier,
                     repo = githubRepo,
