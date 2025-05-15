@@ -8,7 +8,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.addhen.livefront.data.api.GithubApiService
 import com.addhen.livefront.data.cache.StorageInterface
+import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
+import com.addhen.livefront.data.model.DataError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -48,9 +50,13 @@ class GithubRepoDataRepository @Inject constructor(
      * @return A Flow emitting a [GithubRepo] object containing the repository details if found,
      *         or null if no repository matches the given identifier.
      */
-    override fun getRepoDetails(id: Long): Flow<GithubRepo?> {
-        return storage.all().map {
-            it.firstOrNull { it.id == id }
+    override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo>> =
+        storage.all().map { repos ->
+            val repo = repos.firstOrNull { it.id == id }
+            if (repo != null) {
+                DataResult.Success(repo)
+            } else {
+                DataResult.Error(DataError.NotFound)
+            }
         }
-    }
 }

@@ -8,7 +8,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
+import com.addhen.livefront.data.model.DataError
 import com.addhen.livefront.data.model.decodeToGithubRepo
 import com.addhen.livefront.data.model.encodeToString
 import com.addhen.livefront.data.respository.GithubRepoRepository
@@ -33,26 +35,29 @@ class GithubRepoDetailViewModel @Inject constructor(
     private val restoredRepo: String? = savedStateHandle.get<String>(REPO_SAVED_STATE_KEY)
 
     val uiState: StateFlow<GithubRepoDetailUiState> = repository.getRepoDetails(route.id)
-        .map { githubRepo ->
-            when {
-                githubRepo != null -> {
-                    /*
-                     * Save the `GithubRepo` object(serialized to a string) in `SavedStateHandle` as a quick
-                     * way to persist the data across configuration changes and process deaths.
-                     *
-                     * In a real world application this won't be done but the data would be retrieved from
-                     * a persistent storage like Room or DataStore. Using this approach as a quick win to
-                     * fix the issue at hand and for this exercise.
-                     *
-                     */
+        .map { result ->
+            when (result) {
+                is DataResult.Success -> {
+                    val githubRepo = result.data as GithubRepo
                     savedStateHandle[REPO_SAVED_STATE_KEY] = githubRepo.encodeToString()
                     GithubRepoDetailUiState.Success(githubRepo)
                 }
-                restoredRepo != null -> {
-                    val restored = restoredRepo.decodeToGithubRepo()
-                    GithubRepoDetailUiState.Success(restored)
+                is DataResult.Error -> when (val error = result.error) {
+                    DataError.NotFound -> {
+                        // Try restoring from SavedStateHandle
+                        when {
+                            restoredRepo != null -> {
+                                val repo = restoredRepo.decodeToGithubRepo()
+                                GithubRepoDetailUiState.Success(repo)
+                            }
+                            else -> {
+                                GithubRepoDetailUiState.Empty
+                            }
+                        }
+                    }
+                    DataError.Network -> GithubRepoDetailUiState.Error("Network error, please try again.")
+                    is DataError.Unknown -> GithubRepoDetailUiState.Error(error.message)
                 }
-                else -> GithubRepoDetailUiState.Empty
             }
         }
         .catch { e ->
