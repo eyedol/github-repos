@@ -14,6 +14,9 @@ import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.model.GithubRepo.Contributor
 import com.addhen.livefront.data.model.GithubRepo.Owner
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.awaitAll
 import timber.log.Timber
 
 /**
@@ -48,19 +51,23 @@ class GithubRepoPagingSource(
                 perPage = params.loadSize,
             )
 
-            val reposWithContributors = response.items.map { repo ->
-                val (owner, repoName) = repo.full_name.split("/")
-                try {
-                    val contributors = apiService.getContributors(owner, repoName, 10)
-                    repo.toGithubRepo().copy(
-                        contributor = contributors.firstOrNull()?.toContributor(),
-                        contributors = contributors.toContributorList(),
-                    )
-                } catch (e: Exception) {
-                    // If we fail to fetch contributors, return repo without a contributor
-                    Timber.e(e, "Failed to fetch contributors for repo: ${repo.full_name}")
-                    repo.toGithubRepo()
-                }
+            val reposWithContributors = coroutineScope {
+                response.items.map { repo ->
+                    async {
+                        val (owner, repoName) = repo.full_name.split("/")
+                        try {
+                            val contributors = apiService.getContributors(owner, repoName, 10)
+                            repo.toGithubRepo().copy(
+                                contributor = contributors.firstOrNull()?.toContributor(),
+                                contributors = contributors.toContributorList(),
+                            )
+                        } catch (e: Exception) {
+                            // If we fail to fetch contributors, return repo without a contributor
+                            Timber.e(e, "Failed to fetch contributors for repo: ${repo.full_name}")
+                            repo.toGithubRepo()
+                        }
+                    }
+                }.awaitAll()
             }
 
             storage.addAll(reposWithContributors)
