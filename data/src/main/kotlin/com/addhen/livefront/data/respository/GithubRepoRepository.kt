@@ -32,5 +32,5 @@ interface GithubRepoRepository {
      * @return A Flow emitting the repository details as a [GithubRepo] object if found,
      *         or null if the repository does not exist.
      */
-    fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo?>>
+    fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo>>
 }

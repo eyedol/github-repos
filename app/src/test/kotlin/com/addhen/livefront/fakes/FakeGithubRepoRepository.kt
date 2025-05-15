@@ -62,7 +62,7 @@ class FakeGithubRepoRepository : GithubRepoRepository {
         ).flow
     }
 
-    override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo?>> {
+    override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo>> {
         return detailsFlow
     }
 }
