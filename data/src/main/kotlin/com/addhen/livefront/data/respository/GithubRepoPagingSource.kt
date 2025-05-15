@@ -92,7 +92,6 @@ internal fun GithubRepoDto.toGithubRepo(): GithubRepo {
         stargazersCount = stargazers_count,
         htmlUrl = html_url,
         owner = owner.toOwner(),
-        contributor = contributor?.toContributor(),
     )
 }
 
