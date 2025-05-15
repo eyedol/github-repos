@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.flow
 
 class FakeGithubRepoRepository : GithubRepoRepository {
 
-    private val repoDetailsMap = mutableMapOf<Long, GithubRepo?>()
+    private val repoDetailsMap = mutableMapOf<Long, GithubRepo>()
     private var shouldError = false
 
-    fun setRepoDetails(id: Long, repo: GithubRepo?) {
+    fun setRepoDetails(id: Long, repo: GithubRepo) {
         repoDetailsMap[id] = repo
     }
     fun setShouldError(shouldError: Boolean) {
@@ -26,10 +26,10 @@ class FakeGithubRepoRepository : GithubRepoRepository {
         TODO("Not yet implemented as we don't need to test this")
     }
 
-    override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo?>> {
+    override fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo>> {
         if (shouldError) {
             return flow { throw Exception("Fake error") } // Simulate error
         }
-        return flow { emit(DataResult.Success(repoDetailsMap[id])) }
+        return flow { emit(DataResult.Success(repoDetailsMap[id] ?: return@flow) ) }
     }
 }
