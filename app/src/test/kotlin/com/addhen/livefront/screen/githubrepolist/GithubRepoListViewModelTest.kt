@@ -4,17 +4,22 @@
 package com.addhen.livefront.screen.githubrepolist
 
 import androidx.paging.testing.asSnapshot
+import app.cash.turbine.test
+import com.addhen.livefront.connectivity.ConnectionState
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.fakes.FakeGithubRepoRepository
 import com.addhen.livefront.fakes.FakeNetworkConnectivity
 import com.addhen.livefront.fakes.fakes
 import com.addhen.livefront.testing.CoroutineTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 
@@ -29,10 +34,13 @@ class GithubRepoListViewModelTest {
     private lateinit var fakeRepository: FakeGithubRepoRepository
     private lateinit var fakeNetworkConnectivity: FakeNetworkConnectivity
     private lateinit var viewModel: GithubRepoListViewModel
+    private lateinit var connectivityStateFlow: MutableStateFlow<ConnectionState>
 
     @BeforeEach
-    fun setup() {
+    fun setup() = runTest {
+        connectivityStateFlow = MutableStateFlow(ConnectionState.Available)
         fakeRepository = FakeGithubRepoRepository()
+        fakeNetworkConnectivity = FakeNetworkConnectivity(connectivityStateFlow.asStateFlow())
     }
 
     @Test
@@ -63,5 +71,22 @@ class GithubRepoListViewModelTest {
         }
 
         assertThrows<Exception>(Exception::class.java, runTestBlock)
+    }
+
+    @Nested
+    @DisplayName("Connectivity State")
+    inner class ConnectivityStateTest {
+        @Test
+        fun `connectivityState emits changes from connectivityRepository`() = runTest {
+            viewModel = GithubRepoListViewModel(
+                githubRepository = fakeRepository,
+                connectivityRepository = fakeNetworkConnectivity
+            )
+            viewModel.connectivityState.test {
+                connectivityStateFlow.value = ConnectionState.Unavailable
+                assertEquals(ConnectionState.Available, awaitItem())
+                assertEquals(ConnectionState.Unavailable, awaitItem())
+            }
+        }
     }
 }
