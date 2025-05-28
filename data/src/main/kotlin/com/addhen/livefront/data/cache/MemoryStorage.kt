@@ -41,6 +41,7 @@ class MemoryStorage<E> @Inject constructor(
      *
      * This method appends the provided elements to the current list stored in memory and emits the updated list
      * to all subscribers of the reactive flow returned by the `MemoryStorage#all` method.
+     * This method is main-safe and can be called from any coroutine context.
      *
      * @param elements A list of elements to be added to the storage. This can be an empty list, in which case
      * no changes are made and no emissions occur.

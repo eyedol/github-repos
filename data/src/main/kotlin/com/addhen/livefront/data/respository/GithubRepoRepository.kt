@@ -4,6 +4,7 @@
 package com.addhen.livefront.data.respository
 
 import androidx.paging.PagingData
+import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
 import kotlinx.coroutines.flow.Flow
 
@@ -31,5 +32,5 @@ interface GithubRepoRepository {
      * @return A Flow emitting the repository details as a [GithubRepo] object if found,
      *         or null if the repository does not exist.
      */
-    fun getRepoDetails(id: Long): Flow<GithubRepo?>
+    fun getRepoDetails(id: Long): Flow<DataResult<GithubRepo>>
 }

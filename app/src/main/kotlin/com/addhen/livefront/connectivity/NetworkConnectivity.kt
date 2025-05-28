@@ -1,7 +1,7 @@
 // Copyright 2025, Livefront sample app project contributors
 // SPDX-License-Identifier: Apache-2.0
 
-package com.addhen.livefront
+package com.addhen.livefront.connectivity
 
 import android.content.Context
 import android.net.ConnectivityManager

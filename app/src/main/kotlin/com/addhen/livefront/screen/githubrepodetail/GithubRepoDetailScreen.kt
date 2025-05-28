@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -49,15 +50,17 @@ import coil.request.ImageRequest
 import com.addhen.livefront.R
 import com.addhen.livefront.data.model.GithubRepo
 import com.addhen.livefront.data.model.GithubRepo.Contributor
-import com.addhen.livefront.formatStars
+import com.addhen.livefront.extension.formatStars
 import com.addhen.livefront.screen.githubrepodetail.GithubRepoDetailViewModel.GithubRepoDetailUiState
 import com.addhen.livefront.ui.component.AppScaffold
+import com.addhen.livefront.ui.component.EmptyContent
 import com.addhen.livefront.ui.component.ErrorInfo
 import com.addhen.livefront.ui.component.LoadingIndicator
 import com.addhen.livefront.ui.theme.darkerRed
 import com.addhen.livefront.ui.theme.lighterRed
 import com.addhen.livefront.ui.theme.starYellow
 import com.addhen.livefront.ui.theme.vibrantRed
+import timber.log.Timber
 
 @Composable
 fun GithubRepoDetailScreen(
@@ -66,7 +69,6 @@ fun GithubRepoDetailScreen(
     onBackClick: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val githubRepo by viewModel.githubRepo.collectAsStateWithLifecycle()
 
     AppScaffold(
         title = stringResource(R.string.app_name),
@@ -75,17 +77,12 @@ fun GithubRepoDetailScreen(
             IconButton(onClick = onBackClick) { Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_icon_content_description)) }
         },
     ) {
-        GithuRepoDetailContent(
-            githubRepo = githubRepo,
-            uiState = uiState,
-            modifier = Modifier.fillMaxSize(),
-        )
+        GithuRepoDetailContent(uiState = uiState, modifier = Modifier.fillMaxSize())
     }
 }
 
 @Composable
 private fun GithuRepoDetailContent(
-    githubRepo: GithubRepo?,
     uiState: GithubRepoDetailUiState,
     modifier: Modifier = Modifier,
 ) {
@@ -95,17 +92,33 @@ private fun GithuRepoDetailContent(
             .padding(16.dp)
             .then(modifier),
     ) {
-        when {
-            uiState.isLoadingRepo -> LoadingIndicator()
-            uiState.error != null -> ErrorInfo(message = uiState.error) {
-                // No retry logic here as it's expected that the repo should exists in-memory
-                // and it should never error in the first place.
+        when (uiState) {
+            is GithubRepoDetailUiState.Error -> {
+                ErrorInfo(message = uiState.message) {
+                    // TODO implement retry as there could be an error due to de/serialization of
+                    // the stored [GithubRepo] object in [SavedStateHandle]
+                    Timber.d("Retrying to load repo details")
+                }
             }
-            githubRepo != null -> {
+
+            is GithubRepoDetailUiState.Success -> {
+                Timber.d("Retrying to load repo details")
                 GithuRepoDetailContent(
                     modifier = modifier,
-                    repo = githubRepo,
+                    repo = uiState.repo,
                 )
+            }
+
+            GithubRepoDetailUiState.Empty -> {
+                EmptyContent(
+                    title = { Text(stringResource(R.string.empty_content)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+
+            GithubRepoDetailUiState.Loading -> {
+                Timber.d("Retrying to load repo details")
+                LoadingIndicator()
             }
         }
     }

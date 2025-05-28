@@ -7,11 +7,6 @@ import com.addhen.livefront.data.api.dto.GithubRepoDto
 import com.addhen.livefront.data.api.dto.GithubRepoResponseDto
 
 internal fun GithubRepoDto.Companion.fakes(id: Long = 1, nullContributor: Boolean = false): GithubRepoDto {
-    val contributor = if (nullContributor) {
-        null
-    } else {
-        GithubRepoDto.ContributorDto.fakes(id)
-    }
     return GithubRepoDto(
         id = id,
         description = "Fake repo description $id",
@@ -23,7 +18,6 @@ internal fun GithubRepoDto.Companion.fakes(id: Long = 1, nullContributor: Boolea
             login = "fakeOwner$id",
             avatar_url = "Fake owner avatar url",
         ),
-        contributor = contributor,
     )
 }
 

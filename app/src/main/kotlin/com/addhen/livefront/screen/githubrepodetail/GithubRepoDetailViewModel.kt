@@ -8,50 +8,79 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.addhen.livefront.data.model.DataError
+import com.addhen.livefront.data.model.DataResult
 import com.addhen.livefront.data.model.GithubRepo
+import com.addhen.livefront.data.model.decodeToGithubRepo
+import com.addhen.livefront.data.model.encodeToString
 import com.addhen.livefront.data.respository.GithubRepoRepository
 import com.addhen.livefront.ui.navigation.GithubRepoDetailRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import javax.inject.Inject
+
+private const val REPO_SAVED_STATE_KEY = "GitHubRepo"
 
 @HiltViewModel
 class GithubRepoDetailViewModel @Inject constructor(
     repository: GithubRepoRepository,
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val route = savedStateHandle.toRoute<GithubRepoDetailRoute>()
-    private val _uiState = MutableStateFlow(GithubRepoDetailUiState())
-    val uiState: StateFlow<GithubRepoDetailUiState> = _uiState.asStateFlow()
+    private val restoredRepo: String? = savedStateHandle.get<String>(REPO_SAVED_STATE_KEY)
 
-    val githubRepo: StateFlow<GithubRepo?> = repository.getRepoDetails(route.id)
-        .onStart { _uiState.update { it.copy(isLoadingRepo = true, error = null) } }
-        .catch { e ->
-            Timber.d(e)
-            _uiState.update { it.copy(isLoadingRepo = false, error = "Failed to load repo details: ${e.message}") }
+    val uiState: StateFlow<GithubRepoDetailUiState> = repository.getRepoDetails(route.id)
+        .map { result ->
+            when (result) {
+                is DataResult.Success -> {
+                    val githubRepo = result.data as GithubRepo
+                    savedStateHandle[REPO_SAVED_STATE_KEY] = githubRepo.encodeToString()
+                    GithubRepoDetailUiState.Success(githubRepo)
+                }
+                is DataResult.Error -> when (val error = result.error) {
+                    DataError.NotFound -> {
+                        // Try restoring from SavedStateHandle
+                        when {
+                            restoredRepo != null -> {
+                                val repo = restoredRepo.decodeToGithubRepo()
+                                GithubRepoDetailUiState.Success(repo)
+                            }
+                            else -> {
+                                GithubRepoDetailUiState.Empty
+                            }
+                        }
+                    }
+                    DataError.Network -> GithubRepoDetailUiState.Error("Network error, please try again.")
+                    is DataError.Unknown -> GithubRepoDetailUiState.Error(error.message)
+                }
+            }
         }
-        .onEach {
-            Timber.d("Repo details: $it")
-            _uiState.update { it.copy(isLoadingRepo = false, error = null) }
+        .catch { e ->
+            // There can be an error from de/serialization of the [GithubRepo] object
+            Timber.e(e)
+            emit(GithubRepoDetailUiState.Error(e.message ?: "Unknown error"))
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = null,
+            initialValue = GithubRepoDetailUiState.Loading,
         )
 
+    override fun onCleared() {
+        super.onCleared()
+        savedStateHandle.remove<String>(REPO_SAVED_STATE_KEY)
+    }
+
     @Stable
-    data class GithubRepoDetailUiState(
-        val isLoadingRepo: Boolean = true,
-        val error: String? = null,
-    )
+    sealed interface GithubRepoDetailUiState {
+        object Empty : GithubRepoDetailUiState
+        object Loading : GithubRepoDetailUiState
+        data class Success(val repo: GithubRepo) : GithubRepoDetailUiState
+        data class Error(val message: String) : GithubRepoDetailUiState
+    }
 }
